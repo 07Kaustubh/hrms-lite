@@ -18,3 +18,12 @@ frontend/.env.local
 
 # Docs/plans (not needed in prod)
 docs/
+
+# Screenshots and test artifacts
+*.png
+*.log
+.playwright-mcp/
+
+# Assignment spec (but not requirements.txt)
+*.txt
+!backend/requirements.txt
