@@ -36,6 +36,21 @@ html * {
   fill: #9CA3AF;
 }
 
+/* Make calendar responsive inside modals */
+.rdp-root {
+  --rdp-cell-size: 36px;
+}
+
+@media (max-width: 400px) {
+  .rdp-root {
+    --rdp-cell-size: 32px;
+    font-size: 0.8rem;
+  }
+  .rdp-month_caption {
+    font-size: 0.85rem;
+  }
+}
+
 /* Dark mode for native select dropdowns */
 .dark select {
   color-scheme: dark;

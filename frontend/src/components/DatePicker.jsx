@@ -44,13 +44,14 @@ export default function DatePicker({ value, onChange, max, id, name }) {
         <Calendar className="w-4 h-4 text-gray-400 dark:text-gray-500" />
       </button>
       {open && (
-        <div className="absolute z-[100] mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg">
+        <div className="absolute z-[100] mt-1 left-0 right-0 sm:left-auto sm:right-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg overflow-hidden">
           <DayPicker
             mode="single"
             selected={selected}
             onSelect={handleSelect}
             disabled={maxDate ? { after: maxDate } : undefined}
-            className="p-3"
+            className="p-2 sm:p-3 [&_.rdp-month]:w-full"
+            style={{ fontSize: "0.85rem" }}
           />
         </div>
       )}
