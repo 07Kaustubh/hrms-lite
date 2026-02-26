@@ -1,6 +1,6 @@
-from datetime import datetime
+from datetime import date as date_type, datetime
 from enum import Enum
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr, Field, field_validator
 
 
 class Department(str, Enum):
@@ -25,6 +25,14 @@ class EmployeeCreate(BaseModel):
     email: EmailStr
     department: Department
 
+    @field_validator("full_name")
+    @classmethod
+    def validate_full_name(cls, v):
+        v = v.strip()
+        if not v:
+            raise ValueError("Full name cannot be empty or whitespace only")
+        return v
+
 
 class EmployeeResponse(BaseModel):
     employee_id: str
@@ -35,9 +43,18 @@ class EmployeeResponse(BaseModel):
 
 
 class AttendanceCreate(BaseModel):
-    employee_id: str = Field(..., min_length=1)
+    employee_id: str = Field(..., min_length=1, pattern=r"^[A-Za-z0-9-]+$")
     date: str = Field(..., pattern=r"^\d{4}-\d{2}-\d{2}$")
     status: AttendanceStatus
+
+    @field_validator("date")
+    @classmethod
+    def validate_date(cls, v):
+        try:
+            date_type.fromisoformat(v)
+        except ValueError:
+            raise ValueError("Invalid date. Use YYYY-MM-DD format with a valid date.")
+        return v
 
 
 class AttendanceResponse(BaseModel):
