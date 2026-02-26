@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import { Menu } from "lucide-react";
 
@@ -19,7 +19,7 @@ export default function Layout() {
           >
             <Menu className="w-6 h-6" />
           </button>
-          <h1 className="text-lg font-bold text-indigo-700">HRMS Lite</h1>
+          <Link to="/" className="text-lg font-bold text-indigo-700 hover:text-indigo-900 transition-colors">HRMS Lite</Link>
         </header>
         <main className="flex-1 overflow-auto p-4 md:p-8">
           <Outlet />

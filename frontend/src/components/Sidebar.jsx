@@ -1,4 +1,4 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, Link, useLocation } from "react-router-dom";
 import { useEffect, useRef } from "react";
 import { Briefcase, LayoutDashboard, Users, ClipboardCheck } from "lucide-react";
 
@@ -38,10 +38,10 @@ export default function Sidebar({ isOpen, onClose }) {
         transform transition-transform duration-300 ease-in-out
         ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0
       `}>
-        <div className="px-6 py-5 flex items-center gap-3 border-b border-indigo-600/50 bg-gradient-to-r from-indigo-800 to-indigo-700">
+        <Link to="/" className="px-6 py-5 flex items-center gap-3 border-b border-indigo-600/50 bg-gradient-to-r from-indigo-800 to-indigo-700 hover:from-indigo-700 hover:to-indigo-600 transition-all">
           <Briefcase className="w-7 h-7" />
           <h1 className="text-xl font-bold tracking-wide">HRMS Lite</h1>
-        </div>
+        </Link>
 
         <nav className="flex-1 mt-4 px-3 space-y-1">
           {navItems.map(({ to, label, icon: Icon }) => (

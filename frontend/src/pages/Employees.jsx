@@ -186,11 +186,22 @@ export default function Employees() {
 
       {/* ── Empty state ── */}
       {employees.length === 0 ? (
-        <EmptyState
-          icon={Users}
-          title="No Employees"
-          description="No employees yet. Click 'Add Employee' to get started."
-        />
+        <>
+          <EmptyState
+            icon={Users}
+            title="No Employees"
+            description="No employees yet. Add your first employee to get started."
+          />
+          <div className="flex justify-center mt-4">
+            <button
+              onClick={openAddModal}
+              className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 transition-colors cursor-pointer"
+            >
+              <Plus className="w-4 h-4" />
+              Add Employee
+            </button>
+          </div>
+        </>
       ) : (
         /* ── Employee table ── */
         <div className="bg-white rounded-xl shadow-sm overflow-hidden">

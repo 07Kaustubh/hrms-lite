@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Users, UserCheck, UserX, Clock, Plus } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Users, UserCheck, UserX, Clock, Plus, ChevronRight } from "lucide-react";
 import { dashboardApi } from "../services/api";
 import EmptyState from "../components/EmptyState";
 import ErrorMessage from "../components/ErrorMessage";
@@ -9,6 +9,7 @@ import usePageTitle from "../hooks/usePageTitle";
 
 export default function Dashboard() {
   usePageTitle("Dashboard");
+  const navigate = useNavigate();
   const [summary, setSummary] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -78,6 +79,7 @@ export default function Dashboard() {
       bgColor: "bg-blue-100",
       textColor: "text-blue-600",
       icon: Users,
+      link: "/employees",
     },
     {
       label: "Present Today",
@@ -85,6 +87,7 @@ export default function Dashboard() {
       bgColor: "bg-green-100",
       textColor: "text-green-600",
       icon: UserCheck,
+      link: "/attendance",
     },
     {
       label: "Absent Today",
@@ -92,6 +95,7 @@ export default function Dashboard() {
       bgColor: "bg-red-100",
       textColor: "text-red-600",
       icon: UserX,
+      link: "/attendance",
     },
     {
       label: "Unmarked Today",
@@ -99,6 +103,7 @@ export default function Dashboard() {
       bgColor: "bg-amber-100",
       textColor: "text-amber-600",
       icon: Clock,
+      link: "/attendance",
     },
   ];
 
@@ -115,20 +120,22 @@ export default function Dashboard() {
         {statCards.map((card) => {
           const IconComponent = card.icon;
           return (
-            <div
+            <Link
               key={card.label}
-              className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-6 flex items-center gap-4"
+              to={card.link}
+              className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-6 flex items-center gap-4 cursor-pointer group"
             >
               <div
                 className={`flex items-center justify-center w-12 h-12 rounded-full ${card.bgColor} ${card.textColor} shrink-0`}
               >
                 <IconComponent className="w-6 h-6" />
               </div>
-              <div>
+              <div className="flex-1">
                 <p className="text-2xl font-bold text-gray-900">{card.value}</p>
                 <p className="text-sm text-gray-500">{card.label}</p>
               </div>
-            </div>
+              <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-gray-500 transition-colors" />
+            </Link>
           );
         })}
       </div>
@@ -162,7 +169,8 @@ export default function Dashboard() {
                 {departments.map((dept, index) => (
                   <tr
                     key={dept.department}
-                    className={index % 2 === 1 ? "bg-gray-50" : "bg-white"}
+                    className={`${index % 2 === 1 ? "bg-gray-50" : "bg-white"} hover:bg-indigo-50 cursor-pointer transition-colors`}
+                    onClick={() => navigate("/employees")}
                   >
                     <td className="px-6 py-3 text-sm text-gray-800">
                       {dept.department}
