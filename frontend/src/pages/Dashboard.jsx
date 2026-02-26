@@ -199,14 +199,15 @@ export default function Dashboard() {
                       itemStyle={{ color: "#f3f4f6" }}
                       labelStyle={{ color: "#9CA3AF" }}
                     />
+                    {/* Center label inside SVG so it doesn't block tooltip */}
+                    <text x="50%" y="46%" textAnchor="middle" dominantBaseline="middle" className="fill-gray-800 dark:fill-gray-100 text-2xl font-bold" style={{ fontSize: "1.5rem", fontWeight: 700 }}>
+                      {Math.round((summary.present_today / summary.total_employees) * 100)}%
+                    </text>
+                    <text x="50%" y="58%" textAnchor="middle" dominantBaseline="middle" className="fill-gray-500 dark:fill-gray-400" style={{ fontSize: "0.75rem" }}>
+                      Present
+                    </text>
                   </PieChart>
                 </ResponsiveContainer>
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <div className="text-center">
-                    <p className="text-2xl font-bold text-gray-800 dark:text-gray-100">{summary.total_employees > 0 ? Math.round((summary.present_today / summary.total_employees) * 100) : 0}%</p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">Present</p>
-                  </div>
-                </div>
               </div>
               <div className="flex gap-6 mt-2">
                 <div className="flex items-center gap-2">
