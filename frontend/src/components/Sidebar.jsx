@@ -13,8 +13,8 @@ export default function Sidebar({ isOpen, onClose }) {
 
   // Close sidebar on navigation (mobile)
   useEffect(() => {
-    onClose?.();
-  }, [location.pathname]);
+    if (isOpen) onClose?.();
+  }, [location.pathname, isOpen, onClose]);
 
   return (
     <>

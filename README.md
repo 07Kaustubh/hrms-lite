@@ -11,7 +11,7 @@ A lightweight Human Resource Management System for managing employee records and
 
 | Layer | Technology |
 |-------|-----------|
-| Frontend | React 18, Vite, Tailwind CSS, React Router, Axios |
+| Frontend | React 19, Vite 7, Tailwind CSS 4, React Router 7, Axios, Lucide React |
 | Backend | Python, FastAPI, Pydantic |
 | Database | MongoDB Atlas (via Motor async driver) |
 | Deployment | Vercel (frontend), Render (backend) |
