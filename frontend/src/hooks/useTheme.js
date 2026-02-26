@@ -9,9 +9,11 @@ export default function useTheme() {
   useEffect(() => {
     if (dark) {
       document.documentElement.classList.add("dark");
+      document.documentElement.style.colorScheme = "dark";
       localStorage.theme = "dark";
     } else {
       document.documentElement.classList.remove("dark");
+      document.documentElement.style.colorScheme = "light";
       localStorage.theme = "light";
     }
   }, [dark]);

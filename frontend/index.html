@@ -9,6 +9,7 @@
     <script>
       if (localStorage.theme === "dark" || (!localStorage.theme && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
         document.documentElement.classList.add("dark");
+        document.documentElement.style.colorScheme = "dark";
       }
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />

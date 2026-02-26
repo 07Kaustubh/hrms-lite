@@ -6,6 +6,41 @@
   --font-sans: "Manrope", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
+/* Smooth theme transition */
+html {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+html * {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.15s ease;
+}
+
+/* Override react-day-picker styles for dark mode */
+.dark .rdp-root {
+  --rdp-accent-color: #0D9488;
+  --rdp-accent-background-color: rgba(13, 148, 136, 0.2);
+  --rdp-day-color: #f3f4f6;
+  --rdp-day_button-border-color: transparent;
+  --rdp-selected-border: 1px solid #0D9488;
+  --rdp-outside-opacity: 0.4;
+  --rdp-nav-color: #9CA3AF;
+  --rdp-weekday-color: #6B7280;
+  --rdp-month_caption-color: #f3f4f6;
+}
+
+.dark .rdp-day_button:hover {
+  background-color: rgba(13, 148, 136, 0.15);
+}
+
+.dark .rdp-chevron {
+  fill: #9CA3AF;
+}
+
+/* Dark mode for native select dropdowns */
+.dark select {
+  color-scheme: dark;
+}
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
