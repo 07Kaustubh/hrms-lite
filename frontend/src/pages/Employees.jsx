@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Plus, Trash2, Users } from "lucide-react";
 import { employeeApi } from "../services/api";
 import EmptyState from "../components/EmptyState";
 import ErrorMessage from "../components/ErrorMessage";
@@ -157,19 +158,7 @@ export default function Employees() {
           onClick={openAddModal}
           className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium transition-colors cursor-pointer flex items-center gap-2"
         >
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 4v16m8-8H4"
-            />
-          </svg>
+          <Plus className="w-5 h-5" />
           Add Employee
         </button>
       </div>
@@ -184,7 +173,7 @@ export default function Employees() {
       {/* ── Empty state ── */}
       {employees.length === 0 ? (
         <EmptyState
-          icon="👥"
+          icon={Users}
           title="No Employees"
           description="No employees yet. Click 'Add Employee' to get started."
         />
@@ -198,71 +187,61 @@ export default function Employees() {
             </span>
           </div>
 
-          <table className="w-full">
-            <thead>
-              <tr className="bg-gray-50 border-b border-gray-200">
-                <th className="text-left text-xs font-medium text-gray-500 uppercase px-6 py-3">
-                  Employee ID
-                </th>
-                <th className="text-left text-xs font-medium text-gray-500 uppercase px-6 py-3">
-                  Full Name
-                </th>
-                <th className="text-left text-xs font-medium text-gray-500 uppercase px-6 py-3">
-                  Email
-                </th>
-                <th className="text-left text-xs font-medium text-gray-500 uppercase px-6 py-3">
-                  Department
-                </th>
-                <th className="text-left text-xs font-medium text-gray-500 uppercase px-6 py-3">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100">
-              {employees.map((emp) => (
-                <tr
-                  key={emp.employee_id}
-                  className="hover:bg-gray-50 transition-colors"
-                >
-                  <td className="px-6 py-4 text-sm font-mono text-gray-700">
-                    {emp.employee_id}
-                  </td>
-                  <td className="px-6 py-4 text-sm font-medium text-gray-900">
-                    {emp.full_name}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-600">
-                    {emp.email}
-                  </td>
-                  <td className="px-6 py-4">
-                    <span className="inline-block text-xs font-medium bg-gray-100 text-gray-700 px-2.5 py-1 rounded-full">
-                      {emp.department}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4">
-                    <button
-                      onClick={() => setDeleteTarget(emp)}
-                      className="text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg p-2 transition-colors cursor-pointer"
-                      title={`Delete ${emp.full_name}`}
-                    >
-                      <svg
-                        className="w-5 h-5"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                        />
-                      </svg>
-                    </button>
-                  </td>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="bg-gray-50 border-b border-gray-200">
+                  <th className="text-left text-xs font-medium text-gray-500 uppercase px-6 py-3">
+                    Employee ID
+                  </th>
+                  <th className="text-left text-xs font-medium text-gray-500 uppercase px-6 py-3">
+                    Full Name
+                  </th>
+                  <th className="text-left text-xs font-medium text-gray-500 uppercase px-6 py-3">
+                    Email
+                  </th>
+                  <th className="text-left text-xs font-medium text-gray-500 uppercase px-6 py-3">
+                    Department
+                  </th>
+                  <th className="text-left text-xs font-medium text-gray-500 uppercase px-6 py-3">
+                    Actions
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {employees.map((emp) => (
+                  <tr
+                    key={emp.employee_id}
+                    className="hover:bg-gray-50 transition-colors"
+                  >
+                    <td className="px-6 py-4 text-sm font-mono text-gray-700">
+                      {emp.employee_id}
+                    </td>
+                    <td className="px-6 py-4 text-sm font-medium text-gray-900">
+                      {emp.full_name}
+                    </td>
+                    <td className="px-6 py-4 text-sm text-gray-600">
+                      {emp.email}
+                    </td>
+                    <td className="px-6 py-4">
+                      <span className="inline-block text-xs font-medium bg-gray-100 text-gray-700 px-2.5 py-1 rounded-full">
+                        {emp.department}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4">
+                      <button
+                        onClick={() => setDeleteTarget(emp)}
+                        className="text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg p-2 transition-colors cursor-pointer"
+                        title={`Delete ${emp.full_name}`}
+                      >
+                        <Trash2 className="w-5 h-5" />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
 

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { Users, UserCheck, UserX, Clock, Plus } from "lucide-react";
 import { dashboardApi } from "../services/api";
 import EmptyState from "../components/EmptyState";
 import ErrorMessage from "../components/ErrorMessage";
@@ -53,7 +54,7 @@ export default function Dashboard() {
       <div>
         <h1 className="text-2xl font-bold text-gray-800 mb-6">Dashboard</h1>
         <EmptyState
-          icon="👥"
+          icon={Users}
           title="No employees yet"
           description="No employees yet. Add employees to see dashboard stats."
         />
@@ -62,19 +63,7 @@ export default function Dashboard() {
             to="/employees"
             className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 transition-colors"
           >
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 4v16m8-8H4"
-              />
-            </svg>
+            <Plus className="w-4 h-4" />
             Add Employees
           </Link>
         </div>
@@ -88,64 +77,28 @@ export default function Dashboard() {
       value: summary.total_employees,
       bgColor: "bg-blue-100",
       textColor: "text-blue-600",
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"
-          />
-        </svg>
-      ),
+      icon: Users,
     },
     {
       label: "Present Today",
       value: summary.present_today,
       bgColor: "bg-green-100",
       textColor: "text-green-600",
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-          />
-        </svg>
-      ),
+      icon: UserCheck,
     },
     {
       label: "Absent Today",
       value: summary.absent_today,
       bgColor: "bg-red-100",
       textColor: "text-red-600",
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-          />
-        </svg>
-      ),
+      icon: UserX,
     },
     {
       label: "Unmarked Today",
       value: summary.unmarked_today,
       bgColor: "bg-amber-100",
       textColor: "text-amber-600",
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-          />
-        </svg>
-      ),
+      icon: Clock,
     },
   ];
 
@@ -159,22 +112,25 @@ export default function Dashboard() {
 
       {/* Stat Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {statCards.map((card) => (
-          <div
-            key={card.label}
-            className="bg-white rounded-xl shadow-sm p-6 flex items-center gap-4"
-          >
+        {statCards.map((card) => {
+          const IconComponent = card.icon;
+          return (
             <div
-              className={`flex items-center justify-center w-12 h-12 rounded-full ${card.bgColor} ${card.textColor} shrink-0`}
+              key={card.label}
+              className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-6 flex items-center gap-4"
             >
-              {card.icon}
+              <div
+                className={`flex items-center justify-center w-12 h-12 rounded-full ${card.bgColor} ${card.textColor} shrink-0`}
+              >
+                <IconComponent className="w-6 h-6" />
+              </div>
+              <div>
+                <p className="text-2xl font-bold text-gray-900">{card.value}</p>
+                <p className="text-sm text-gray-500">{card.label}</p>
+              </div>
             </div>
-            <div>
-              <p className="text-2xl font-bold text-gray-900">{card.value}</p>
-              <p className="text-sm text-gray-500">{card.label}</p>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Department Breakdown */}
@@ -190,33 +146,35 @@ export default function Dashboard() {
             <p className="text-sm text-gray-400">No department data available</p>
           </div>
         ) : (
-          <table className="w-full">
-            <thead>
-              <tr className="bg-gray-50 text-left">
-                <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Department
-                </th>
-                <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-right">
-                  Employees
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100">
-              {departments.map((dept, index) => (
-                <tr
-                  key={dept.department}
-                  className={index % 2 === 1 ? "bg-gray-50" : "bg-white"}
-                >
-                  <td className="px-6 py-3 text-sm text-gray-800">
-                    {dept.department}
-                  </td>
-                  <td className="px-6 py-3 text-sm text-gray-600 text-right font-medium">
-                    {dept.count}
-                  </td>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="bg-gray-50 text-left">
+                  <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Department
+                  </th>
+                  <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-right">
+                    Employees
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {departments.map((dept, index) => (
+                  <tr
+                    key={dept.department}
+                    className={index % 2 === 1 ? "bg-gray-50" : "bg-white"}
+                  >
+                    <td className="px-6 py-3 text-sm text-gray-800">
+                      {dept.department}
+                    </td>
+                    <td className="px-6 py-3 text-sm text-gray-600 text-right font-medium">
+                      {dept.count}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
     </div>

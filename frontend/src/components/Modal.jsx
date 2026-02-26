@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { X } from "lucide-react";
 
 export default function Modal({ isOpen, onClose, title, children }) {
   const panelRef = useRef(null);
@@ -54,9 +55,7 @@ export default function Modal({ isOpen, onClose, title, children }) {
             className="text-gray-400 hover:text-gray-600 transition-colors cursor-pointer rounded-lg p-1 hover:bg-gray-100"
             aria-label="Close"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
+            <X className="w-5 h-5" />
           </button>
         </div>
         <div className="px-6 py-4">{children}</div>

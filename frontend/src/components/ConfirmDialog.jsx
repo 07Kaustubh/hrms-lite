@@ -1,4 +1,5 @@
 import Modal from "./Modal";
+import { AlertTriangle } from "lucide-react";
 
 export default function ConfirmDialog({
   isOpen,
@@ -12,19 +13,7 @@ export default function ConfirmDialog({
       <div className="flex flex-col items-center text-center py-2">
         {/* Warning icon */}
         <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mb-4">
-          <svg
-            className="w-6 h-6 text-red-600"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 9v2m0 4h.01M10.29 3.86l-8.6 14.86A1 1 0 002.54 20h18.92a1 1 0 00.85-1.28l-8.6-14.86a1 1 0 00-1.42 0z"
-            />
-          </svg>
+          <AlertTriangle className="w-6 h-6 text-red-600" />
         </div>
 
         <p className="text-sm text-gray-600 mb-6">{message}</p>
