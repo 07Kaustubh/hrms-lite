@@ -3,6 +3,7 @@ import { employeeApi, attendanceApi } from "../services/api";
 import LoadingSpinner from "../components/LoadingSpinner";
 import EmptyState from "../components/EmptyState";
 import ErrorMessage from "../components/ErrorMessage";
+import { TableSkeleton, FilterSkeleton } from "../components/Skeleton";
 import Modal from "../components/Modal";
 import StatusBadge from "../components/StatusBadge";
 import Toast from "../components/Toast";
@@ -154,7 +155,15 @@ export default function Attendance() {
 
   // ── Render: initial employees loading ──
   if (employeesLoading) {
-    return <LoadingSpinner message="Loading employees..." />;
+    return (
+      <div>
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-bold text-gray-800">Attendance</h1>
+        </div>
+        <FilterSkeleton />
+        <TableSkeleton rows={5} cols={2} />
+      </div>
+    );
   }
 
   // ── Render: employees fetch error ──

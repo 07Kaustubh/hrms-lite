@@ -4,6 +4,7 @@ import { dashboardApi } from "../services/api";
 import LoadingSpinner from "../components/LoadingSpinner";
 import EmptyState from "../components/EmptyState";
 import ErrorMessage from "../components/ErrorMessage";
+import { CardSkeleton, TableSkeleton } from "../components/Skeleton";
 
 export default function Dashboard() {
   const [summary, setSummary] = useState(null);
@@ -28,7 +29,13 @@ export default function Dashboard() {
   }, []);
 
   if (loading) {
-    return <LoadingSpinner message="Loading dashboard..." />;
+    return (
+      <div>
+        <h1 className="text-2xl font-bold text-gray-800 mb-6">Dashboard</h1>
+        <CardSkeleton count={4} />
+        <div className="mt-6"><TableSkeleton rows={4} cols={2} /></div>
+      </div>
+    );
   }
 
   if (error) {

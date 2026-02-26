@@ -3,6 +3,7 @@ import { employeeApi } from "../services/api";
 import LoadingSpinner from "../components/LoadingSpinner";
 import EmptyState from "../components/EmptyState";
 import ErrorMessage from "../components/ErrorMessage";
+import { TableSkeleton } from "../components/Skeleton";
 import Modal from "../components/Modal";
 import ConfirmDialog from "../components/ConfirmDialog";
 import Toast from "../components/Toast";
@@ -123,7 +124,14 @@ export default function Employees() {
 
   // ── Render: loading ──
   if (loading) {
-    return <LoadingSpinner message="Loading employees..." />;
+    return (
+      <div>
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-bold text-gray-800">Employees</h1>
+        </div>
+        <TableSkeleton rows={5} cols={5} />
+      </div>
+    );
   }
 
   // ── Render: error (full-page) ──
