@@ -16,7 +16,19 @@ async def lifespan(app: FastAPI):
     client.close()
 
 
-app = FastAPI(title="HRMS Lite API", version="1.0.0", lifespan=lifespan)
+tags_metadata = [
+    {"name": "employees", "description": "Employee management — add, view, and delete employee records"},
+    {"name": "attendance", "description": "Attendance tracking — mark and view daily attendance records"},
+    {"name": "dashboard", "description": "Dashboard statistics and data seeding"},
+]
+
+app = FastAPI(
+    title="HRMS Lite API",
+    version="1.0.0",
+    description="A lightweight Human Resource Management System API for managing employees and tracking daily attendance.",
+    lifespan=lifespan,
+    openapi_tags=tags_metadata,
+)
 
 app.add_middleware(
     CORSMiddleware,

@@ -7,7 +7,7 @@ from app.models import EmployeeCreate, EmployeeResponse
 router = APIRouter(prefix="/api/employees", tags=["employees"])
 
 
-@router.get("/", response_model=list[EmployeeResponse])
+@router.get("/", response_model=list[EmployeeResponse], summary="List all employees", description="Returns all employees sorted by creation date (newest first).")
 async def list_employees():
     employees = []
     async for emp in employees_collection.find().sort("created_at", -1):
@@ -21,7 +21,7 @@ async def list_employees():
     return employees
 
 
-@router.post("/", response_model=EmployeeResponse, status_code=201)
+@router.post("/", response_model=EmployeeResponse, status_code=201, summary="Add a new employee", description="Creates an employee with unique ID and email. Returns 409 if either already exists.")
 async def create_employee(employee: EmployeeCreate):
     doc = {
         "employee_id": employee.employee_id,
@@ -45,7 +45,7 @@ async def create_employee(employee: EmployeeCreate):
     return EmployeeResponse(**doc)
 
 
-@router.delete("/{employee_id}", status_code=200)
+@router.delete("/{employee_id}", status_code=200, summary="Delete an employee", description="Removes the employee and all their attendance records. Returns 404 if not found.")
 async def delete_employee(employee_id: str):
     result = await employees_collection.delete_one({"employee_id": employee_id})
     if result.deleted_count == 0:

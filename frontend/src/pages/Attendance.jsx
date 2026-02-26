@@ -297,6 +297,16 @@ export default function Attendance() {
       ) : (
         /* Attendance data */
         <>
+          {/* ── Employee context header ── */}
+          {(() => {
+            const emp = employees.find(e => e.employee_id === selectedEmployee);
+            return emp ? (
+              <p className="text-sm text-gray-500 mb-3">
+                Showing records for <span className="font-semibold text-gray-800">{emp.full_name}</span> ({emp.employee_id})
+              </p>
+            ) : null;
+          })()}
+
           {/* ── Summary stats ── */}
           <div className="bg-white rounded-xl shadow-sm p-4 mb-4">
             <div className="flex items-center gap-4">

@@ -7,7 +7,7 @@ from app.models import AttendanceCreate, AttendanceResponse
 router = APIRouter(prefix="/api/attendance", tags=["attendance"])
 
 
-@router.post("/", response_model=AttendanceResponse, status_code=201)
+@router.post("/", response_model=AttendanceResponse, status_code=201, summary="Mark attendance", description="Records attendance for an employee on a specific date. Returns 409 if already marked for that date.")
 async def mark_attendance(attendance: AttendanceCreate):
     employee = await employees_collection.find_one({"employee_id": attendance.employee_id})
     if not employee:
@@ -29,7 +29,7 @@ async def mark_attendance(attendance: AttendanceCreate):
     return AttendanceResponse(**doc)
 
 
-@router.get("/{employee_id}", response_model=list[AttendanceResponse])
+@router.get("/{employee_id}", response_model=list[AttendanceResponse], summary="Get attendance records", description="Returns attendance records for an employee, sorted by date (newest first). Supports optional start_date and end_date query parameters for filtering.")
 async def get_attendance(
     employee_id: str,
     start_date: str | None = Query(None, pattern=r"^\d{4}-\d{2}-\d{2}$"),

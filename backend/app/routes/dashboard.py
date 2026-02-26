@@ -7,7 +7,7 @@ from app.seed import seed as run_seed
 router = APIRouter(prefix="/api/dashboard", tags=["dashboard"])
 
 
-@router.get("/summary", response_model=DashboardSummary)
+@router.get("/summary", response_model=DashboardSummary, summary="Dashboard summary", description="Returns total employee count, today's attendance breakdown (present, absent, unmarked), and department-wise employee counts.")
 async def get_summary():
     total_employees = await employees_collection.count_documents({})
     today = date.today().isoformat()
@@ -32,7 +32,7 @@ async def get_summary():
     )
 
 
-@router.post("/seed", status_code=200)
+@router.post("/seed", status_code=200, summary="Seed sample data", description="Clears existing data and populates the database with 10 sample employees and 3 weeks of attendance records. Idempotent.")
 async def seed_database():
     await run_seed()
     return {"message": "Database seeded successfully"}
