@@ -2,6 +2,7 @@ from datetime import date
 from fastapi import APIRouter
 from app.database import employees_collection, attendance_collection
 from app.models import DashboardSummary, DepartmentCount
+from app.seed import seed as run_seed
 
 router = APIRouter(prefix="/api/dashboard", tags=["dashboard"])
 
@@ -29,3 +30,9 @@ async def get_summary():
         unmarked_today=unmarked_today,
         departments=departments,
     )
+
+
+@router.post("/seed", status_code=200)
+async def seed_database():
+    await run_seed()
+    return {"message": "Database seeded successfully"}
