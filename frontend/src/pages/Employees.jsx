@@ -232,9 +232,10 @@ export default function Employees() {
                       <button
                         onClick={() => setDeleteTarget(emp)}
                         className="text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg p-2 transition-colors cursor-pointer"
+                        aria-label={`Delete ${emp.full_name}`}
                         title={`Delete ${emp.full_name}`}
                       >
-                        <Trash2 className="w-5 h-5" />
+                        <Trash2 className="w-5 h-5" aria-hidden="true" />
                       </button>
                     </td>
                   </tr>
@@ -268,6 +269,9 @@ export default function Employees() {
               type="text"
               required
               autoFocus
+              pattern="[A-Za-z0-9\-]+"
+              maxLength={20}
+              title="Only letters, numbers, and hyphens allowed"
               value={form.employee_id}
               onChange={handleFormChange}
               className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-shadow"
