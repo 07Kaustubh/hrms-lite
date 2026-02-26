@@ -41,7 +41,7 @@ export default function DatePicker({ value, onChange, max, id, name }) {
         <span className={value ? "text-gray-800 dark:text-gray-100" : "text-gray-400 dark:text-gray-500"}>
           {value ? format(parse(value, "yyyy-MM-dd", new Date()), "MMM d, yyyy") : "Select a date"}
         </span>
-        <Calendar className="w-4 h-4 text-gray-400" />
+        <Calendar className="w-4 h-4 text-gray-400 dark:text-gray-500" />
       </button>
       {open && (
         <div className="absolute z-[100] mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg">

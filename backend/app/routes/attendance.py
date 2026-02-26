@@ -69,7 +69,7 @@ async def get_attendance(
 async def update_attendance(employee_id: str, date: str, update: AttendanceStatusUpdate):
     result = await attendance_collection.find_one_and_update(
         {"employee_id": employee_id, "date": date},
-        {"$set": {"status": update.status}},
+        {"$set": {"status": update.status.value}},
         return_document=ReturnDocument.AFTER
     )
     if not result:

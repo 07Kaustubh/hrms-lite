@@ -227,7 +227,7 @@ export default function Employees() {
               </span>
             </div>
             <div className="relative">
-              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500" />
               <input
                 type="text"
                 placeholder="Search employees..."
@@ -241,7 +241,7 @@ export default function Employees() {
           {/* Mobile card layout */}
           <div className="sm:hidden divide-y divide-gray-100 dark:divide-gray-700">
             {filteredEmployees.map((emp) => (
-              <div key={emp.employee_id} className="p-4 flex items-start justify-between" onClick={() => setDetailTarget(emp)}>
+              <div key={emp.employee_id} role="button" tabIndex={0} aria-label={`View ${emp.full_name}`} className="p-4 flex items-start justify-between cursor-pointer" onClick={() => setDetailTarget(emp)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setDetailTarget(emp); }}>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-gray-900 dark:text-gray-50 truncate">{emp.full_name}</p>
                   <p className="text-xs text-gray-500 dark:text-gray-400 font-mono">{emp.employee_id}</p>

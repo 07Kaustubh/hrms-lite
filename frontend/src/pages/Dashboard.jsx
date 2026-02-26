@@ -144,7 +144,11 @@ export default function Dashboard() {
           return (
             <div
               key={card.label}
+              role="button"
+              tabIndex={0}
+              aria-label={`${card.label}: ${card.value}`}
               onClick={() => handleCardClick(card.key)}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") handleCardClick(card.key); }}
               className="bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-md transition-shadow p-6 flex items-center gap-4 cursor-pointer group"
             >
               <div
