@@ -36,9 +36,14 @@ A lightweight Human Resource Management System for managing employee records and
 - **Server-side Validation** — Required fields, email format (Pydantic EmailStr), whitespace rejection, date validation, pattern-matched employee IDs
 
 ### Bonus Features
-- **Dashboard** — Summary stat cards (total employees, present/absent/unmarked today) with department breakdown table
+- **Dashboard** — Interactive stat cards with drill-down modals showing employee names per category
 - **Date Filtering** — Filter attendance records by start and end date range
 - **Present Day Counts** — Total present/absent summary displayed per employee
+- **Employee Search** — Filter employees by name, ID, email, or department in real time
+- **Attendance Editing** — Toggle attendance status (Present/Absent) by clicking the status badge
+- **Employee Detail Modal** — Click any employee row to see details with "View Attendance" link
+- **Department Drill-Down** — Click a department in the dashboard to filter employees by that department
+- **Connected Navigation** — All links carry context (department filters, employee pre-selection, post-add CTA)
 
 ### UI/UX Polish
 - **Responsive Design** — Mobile-first layout with collapsible sidebar and hamburger menu
@@ -46,11 +51,13 @@ A lightweight Human Resource Management System for managing employee records and
 - **Error Boundary** — React error boundary prevents full app crashes with friendly fallback UI
 - **404 Page** — Custom not-found page for undefined routes
 - **Modal Animations** — Fade-in/scale-in transitions with Escape key dismissal and auto-focus
-- **Toast Notifications** — Slide-in success notifications with auto-dismiss
-- **Lucide Icons** — Professional SVG icon library throughout
+- **Toast Notifications** — Slide-in success notifications with action links and auto-dismiss
+- **Lucide Icons** — Professional SVG icon library throughout (no emojis)
+- **Inter Font** — Custom typography via Google Fonts for polished appearance
 - **Code Splitting** — Lazy-loaded route pages via React.lazy + Suspense
 - **Dynamic Page Titles** — Browser tab updates per page (e.g., "Dashboard | HRMS Lite")
 - **Accessible** — ARIA labels on icon buttons, role="alert" on notifications, aria-modal on dialogs
+- **Custom Validation** — No native browser popups; all validation shows inline styled error messages
 
 ### Backend Hardening
 - **Health Check** — `GET /api/health` verifies MongoDB connectivity (returns 503 if disconnected)
@@ -170,7 +177,9 @@ VITE_API_URL=http://localhost:8000
 | `DELETE` | `/api/employees/:id` | Delete employee and their attendance | 200, 404 |
 | `GET` | `/api/attendance/:id` | Get attendance records (optional `start_date`, `end_date` query params) | 200, 404 |
 | `POST` | `/api/attendance` | Mark attendance | 201, 404, 409, 422 |
+| `PUT` | `/api/attendance/:id/:date` | Update attendance status (toggle Present/Absent) | 200, 404 |
 | `GET` | `/api/dashboard/summary` | Dashboard statistics | 200 |
+| `GET` | `/api/dashboard/today-details` | Today's attendance grouped by status with employee names | 200 |
 | `POST` | `/api/dashboard/seed` | Seed sample data (idempotent) | 200 |
 | `GET` | `/api/health` | Health check (MongoDB ping) | 200, 503 |
 
