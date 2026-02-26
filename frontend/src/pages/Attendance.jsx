@@ -11,6 +11,7 @@ import StatusBadge from "../components/StatusBadge";
 import Toast from "../components/Toast";
 import { formatDate } from "../utils/formatDate";
 import usePageTitle from "../hooks/usePageTitle";
+import DatePicker from "../components/DatePicker";
 
 const today = new Date().toISOString().split("T")[0]; // "YYYY-MM-DD"
 
@@ -210,7 +211,7 @@ export default function Attendance() {
       {notification && <Toast message={notification} onDismiss={() => setNotification(null)} />}
 
       {/* ── Page header ── */}
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-6">
         <h1 className="text-2xl font-bold text-gray-800">Attendance</h1>
         <button
           onClick={openMarkModal}
@@ -255,12 +256,11 @@ export default function Attendance() {
             >
               Start Date
             </label>
-            <input
+            <DatePicker
               id="start-date"
-              type="date"
+              name="startDate"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-shadow"
             />
           </div>
 
@@ -272,12 +272,11 @@ export default function Attendance() {
             >
               End Date
             </label>
-            <input
+            <DatePicker
               id="end-date"
-              type="date"
+              name="endDate"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-shadow"
             />
           </div>
         </div>
@@ -434,14 +433,12 @@ export default function Attendance() {
             >
               Date
             </label>
-            <input
+            <DatePicker
               id="mark-date"
               name="date"
-              type="date"
-              max={new Date().toISOString().split("T")[0]}
               value={markForm.date}
               onChange={handleMarkFormChange}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-shadow"
+              max={new Date().toISOString().split("T")[0]}
             />
           </div>
 

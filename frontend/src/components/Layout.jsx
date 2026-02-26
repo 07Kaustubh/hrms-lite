@@ -14,7 +14,7 @@ export default function Layout() {
         <header className="md:hidden bg-white border-b border-gray-200 px-4 py-3 flex items-center gap-3">
           <button
             onClick={() => setSidebarOpen(true)}
-            className="text-gray-600 hover:text-gray-900 p-1"
+            className="text-gray-600 hover:text-gray-900 p-2"
             aria-label="Open menu"
           >
             <Menu className="w-6 h-6" />

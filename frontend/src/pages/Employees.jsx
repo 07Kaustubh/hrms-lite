@@ -73,6 +73,13 @@ export default function Employees() {
   // ── Notification helper ──
   const showNotification = (message) => setNotification(message);
 
+  // ── Filtered employees (used by both table and mobile cards) ──
+  const filteredEmployees = employees.filter((emp) => {
+    if (!searchTerm) return true;
+    const q = searchTerm.toLowerCase();
+    return emp.full_name.toLowerCase().includes(q) || emp.employee_id.toLowerCase().includes(q) || emp.email.toLowerCase().includes(q) || emp.department.toLowerCase().includes(q);
+  });
+
   // ── Add employee ──
   const handleFormChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -173,7 +180,7 @@ export default function Employees() {
       {notification && <Toast message={notification} action={notificationAction} onDismiss={() => { setNotification(null); setNotificationAction(null); }} />}
 
       {/* ── Page header ── */}
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-6">
         <h1 className="text-2xl font-bold text-gray-800">Employees</h1>
         <button
           onClick={openAddModal}
@@ -231,66 +238,82 @@ export default function Employees() {
             </div>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="bg-gray-50 border-b border-gray-200">
-                  <th className="text-left text-xs font-medium text-gray-500 uppercase px-6 py-3">
-                    Employee ID
-                  </th>
-                  <th className="text-left text-xs font-medium text-gray-500 uppercase px-6 py-3">
-                    Full Name
-                  </th>
-                  <th className="text-left text-xs font-medium text-gray-500 uppercase px-6 py-3">
-                    Email
-                  </th>
-                  <th className="text-left text-xs font-medium text-gray-500 uppercase px-6 py-3">
-                    Department
-                  </th>
-                  <th className="text-left text-xs font-medium text-gray-500 uppercase px-6 py-3">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100">
-                {employees.filter((emp) => {
-                  if (!searchTerm) return true;
-                  const q = searchTerm.toLowerCase();
-                  return emp.full_name.toLowerCase().includes(q) || emp.employee_id.toLowerCase().includes(q) || emp.email.toLowerCase().includes(q) || emp.department.toLowerCase().includes(q);
-                }).map((emp) => (
-                  <tr
-                    key={emp.employee_id}
-                    className="hover:bg-gray-50 transition-colors cursor-pointer"
-                    onClick={() => setDetailTarget(emp)}
-                  >
-                    <td className="px-6 py-4 text-sm font-mono text-gray-700">
-                      {emp.employee_id}
-                    </td>
-                    <td className="px-6 py-4 text-sm font-medium text-gray-900">
-                      {emp.full_name}
-                    </td>
-                    <td className="px-6 py-4 text-sm text-gray-600">
-                      {emp.email}
-                    </td>
-                    <td className="px-6 py-4">
-                      <span className="inline-block text-xs font-medium bg-gray-100 text-gray-700 px-2.5 py-1 rounded-full">
-                        {emp.department}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4">
-                      <button
-                        onClick={(e) => { e.stopPropagation(); setDeleteTarget(emp); }}
-                        className="text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg p-2 transition-colors cursor-pointer"
-                        aria-label={`Delete ${emp.full_name}`}
-                        title={`Delete ${emp.full_name}`}
-                      >
-                        <Trash2 className="w-5 h-5" aria-hidden="true" />
-                      </button>
-                    </td>
+          {/* Mobile card layout */}
+          <div className="sm:hidden divide-y divide-gray-100">
+            {filteredEmployees.map((emp) => (
+              <div key={emp.employee_id} className="p-4 flex items-start justify-between" onClick={() => setDetailTarget(emp)}>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-900 truncate">{emp.full_name}</p>
+                  <p className="text-xs text-gray-500 font-mono">{emp.employee_id}</p>
+                  <p className="text-xs text-gray-500 truncate">{emp.email}</p>
+                  <span className="inline-block text-xs font-medium bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full mt-1">{emp.department}</span>
+                </div>
+                <button onClick={(e) => { e.stopPropagation(); setDeleteTarget(emp); }} className="text-red-500 hover:text-red-700 p-3 ml-2" aria-label={`Delete ${emp.full_name}`}>
+                  <Trash2 className="w-5 h-5" aria-hidden="true" />
+                </button>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop table layout */}
+          <div className="hidden sm:block">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="bg-gray-50 border-b border-gray-200">
+                    <th className="text-left text-xs font-medium text-gray-500 uppercase px-6 py-3">
+                      Employee ID
+                    </th>
+                    <th className="text-left text-xs font-medium text-gray-500 uppercase px-6 py-3">
+                      Full Name
+                    </th>
+                    <th className="text-left text-xs font-medium text-gray-500 uppercase px-6 py-3">
+                      Email
+                    </th>
+                    <th className="text-left text-xs font-medium text-gray-500 uppercase px-6 py-3">
+                      Department
+                    </th>
+                    <th className="text-left text-xs font-medium text-gray-500 uppercase px-6 py-3">
+                      Actions
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {filteredEmployees.map((emp) => (
+                    <tr
+                      key={emp.employee_id}
+                      className="hover:bg-gray-50 transition-colors cursor-pointer"
+                      onClick={() => setDetailTarget(emp)}
+                    >
+                      <td className="px-6 py-4 text-sm font-mono text-gray-700">
+                        {emp.employee_id}
+                      </td>
+                      <td className="px-6 py-4 text-sm font-medium text-gray-900">
+                        {emp.full_name}
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-600">
+                        {emp.email}
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className="inline-block text-xs font-medium bg-gray-100 text-gray-700 px-2.5 py-1 rounded-full">
+                          {emp.department}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <button
+                          onClick={(e) => { e.stopPropagation(); setDeleteTarget(emp); }}
+                          className="text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg p-2 transition-colors cursor-pointer"
+                          aria-label={`Delete ${emp.full_name}`}
+                          title={`Delete ${emp.full_name}`}
+                        >
+                          <Trash2 className="w-5 h-5" aria-hidden="true" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       )}
@@ -425,7 +448,7 @@ export default function Employees() {
       <Modal isOpen={!!detailTarget} onClose={() => setDetailTarget(null)} title="Employee Details">
         {detailTarget && (
           <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <p className="text-xs font-medium text-gray-500 uppercase">Employee ID</p>
                 <p className="text-sm font-mono text-gray-800 mt-1">{detailTarget.employee_id}</p>
@@ -440,7 +463,7 @@ export default function Employees() {
               </div>
               <div>
                 <p className="text-xs font-medium text-gray-500 uppercase">Email</p>
-                <p className="text-sm text-gray-800 mt-1">{detailTarget.email}</p>
+                <p className="text-sm text-gray-800 mt-1 break-all">{detailTarget.email}</p>
               </div>
             </div>
             <div className="pt-2 flex justify-between items-center border-t border-gray-100">
