@@ -194,7 +194,11 @@ export default function Dashboard() {
                         <Cell key={index} fill={entry.color} />
                       ))}
                     </Pie>
-                    <Tooltip contentStyle={{ backgroundColor: "#1f2937", border: "1px solid #374151", borderRadius: "8px", color: "#f3f4f6" }} />
+                    <Tooltip
+                      contentStyle={{ backgroundColor: "#1f2937", border: "1px solid #374151", borderRadius: "8px" }}
+                      itemStyle={{ color: "#f3f4f6" }}
+                      labelStyle={{ color: "#9CA3AF" }}
+                    />
                   </PieChart>
                 </ResponsiveContainer>
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
@@ -237,7 +241,12 @@ export default function Dashboard() {
               >
                 <XAxis type="number" allowDecimals={false} tick={{ fontSize: 12, fill: "#9CA3AF" }} />
                 <YAxis type="category" dataKey="department" width={110} tick={{ fontSize: 12, fill: "#9CA3AF" }} />
-                <Tooltip contentStyle={{ backgroundColor: "var(--color-gray-800, #1f2937)", border: "1px solid #374151", borderRadius: "8px", color: "#f3f4f6" }} />
+                <Tooltip
+                  contentStyle={{ backgroundColor: "#1f2937", border: "1px solid #374151", borderRadius: "8px" }}
+                  itemStyle={{ color: "#f3f4f6" }}
+                  labelStyle={{ color: "#9CA3AF" }}
+                  cursor={{ fill: "rgba(13, 148, 136, 0.1)" }}
+                />
                 <Bar dataKey="count" fill="#0D9488" radius={[0, 4, 4, 0]} barSize={24} />
               </BarChart>
             </ResponsiveContainer>
