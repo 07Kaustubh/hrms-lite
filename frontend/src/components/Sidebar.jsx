@@ -12,10 +12,14 @@ export default function Sidebar({ isOpen, onClose }) {
   const location = useLocation();
   const onCloseRef = useRef(onClose);
   onCloseRef.current = onClose;
+  const prevPathRef = useRef(location.pathname);
 
   // Close sidebar on route change (mobile only)
   useEffect(() => {
-    onCloseRef.current?.();
+    if (prevPathRef.current !== location.pathname) {
+      prevPathRef.current = location.pathname;
+      onCloseRef.current?.();
+    }
   }, [location.pathname]);
 
   return (
