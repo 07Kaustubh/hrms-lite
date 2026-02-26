@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Briefcase, LayoutDashboard, Users, ClipboardCheck } from "lucide-react";
 
 const navItems = [
@@ -10,11 +10,13 @@ const navItems = [
 
 export default function Sidebar({ isOpen, onClose }) {
   const location = useLocation();
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
 
-  // Close sidebar on navigation (mobile)
+  // Close sidebar on route change (mobile only)
   useEffect(() => {
-    if (isOpen) onClose?.();
-  }, [location.pathname, isOpen, onClose]);
+    onCloseRef.current?.();
+  }, [location.pathname]);
 
   return (
     <>
