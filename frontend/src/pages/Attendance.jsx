@@ -227,7 +227,7 @@ export default function Attendance() {
         <h1 className="text-2xl font-bold text-gray-800">Attendance</h1>
         <button
           onClick={openMarkModal}
-          className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium transition-colors cursor-pointer flex items-center gap-2"
+          className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg font-medium transition-colors cursor-pointer flex items-center gap-2"
         >
           <Plus className="w-5 h-5" />
           Mark Attendance
@@ -249,7 +249,7 @@ export default function Attendance() {
               id="employee-select"
               value={selectedEmployee}
               onChange={(e) => setSelectedEmployee(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-shadow"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-shadow"
             >
               <option value="">Select an employee</option>
               {employees.map((emp) => (
@@ -329,7 +329,7 @@ export default function Attendance() {
             return emp ? (
               <p className="text-sm text-gray-500 mb-3">
                 Showing records for{" "}
-                <Link to={`/employees?search=${emp.employee_id}`} className="font-semibold text-indigo-600 hover:text-indigo-800 transition-colors">
+                <Link to={`/employees?search=${emp.employee_id}`} className="font-semibold text-teal-600 hover:text-teal-800 transition-colors">
                   {emp.full_name}
                 </Link>{" "}
                 ({emp.employee_id})
@@ -384,7 +384,7 @@ export default function Attendance() {
                         <button
                           onClick={() => handleToggleStatus(record)}
                           disabled={togglingDate === record.date}
-                          className={`cursor-pointer transition-opacity rounded focus:ring-2 focus:ring-indigo-500 focus:outline-none ${togglingDate === record.date ? "opacity-50" : "hover:opacity-80"}`}
+                          className={`cursor-pointer transition-opacity rounded focus:ring-2 focus:ring-teal-500 focus:outline-none ${togglingDate === record.date ? "opacity-50" : "hover:opacity-80"}`}
                           title={`Click to change to ${record.status === "Present" ? "Absent" : "Present"}`}
                         >
                           <StatusBadge status={record.status} />
@@ -425,7 +425,7 @@ export default function Attendance() {
               name="employee_id"
               value={markForm.employee_id}
               onChange={handleMarkFormChange}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-shadow"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-shadow"
             >
               <option value="" disabled>
                 Select an employee
@@ -524,7 +524,7 @@ export default function Attendance() {
             <button
               type="submit"
               disabled={submitting}
-              className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 text-sm font-medium text-white bg-teal-600 rounded-lg hover:bg-teal-700 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {submitting ? "Submitting..." : "Mark Attendance"}
             </button>

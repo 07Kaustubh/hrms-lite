@@ -35,7 +35,7 @@ export default function DatePicker({ value, onChange, max, id, name }) {
         id={id}
         onClick={() => setOpen(!open)}
         className={`w-full border rounded-lg px-3 py-2 text-left text-sm outline-none transition-shadow flex items-center justify-between ${
-          open ? "ring-2 ring-indigo-500 border-indigo-500" : "border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+          open ? "ring-2 ring-teal-500 border-teal-500" : "border-gray-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
         }`}
       >
         <span className={value ? "text-gray-800" : "text-gray-400"}>

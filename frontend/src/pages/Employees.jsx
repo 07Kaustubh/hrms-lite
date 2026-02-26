@@ -184,7 +184,7 @@ export default function Employees() {
         <h1 className="text-2xl font-bold text-gray-800">Employees</h1>
         <button
           onClick={openAddModal}
-          className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium transition-colors cursor-pointer flex items-center gap-2"
+          className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg font-medium transition-colors cursor-pointer flex items-center gap-2"
         >
           <Plus className="w-5 h-5" />
           Add Employee
@@ -209,7 +209,7 @@ export default function Employees() {
           <div className="flex justify-center mt-4">
             <button
               onClick={openAddModal}
-              className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 transition-colors cursor-pointer"
+              className="inline-flex items-center gap-2 rounded-lg bg-teal-600 px-4 py-2 text-sm font-medium text-white hover:bg-teal-700 transition-colors cursor-pointer"
             >
               <Plus className="w-4 h-4" />
               Add Employee
@@ -222,7 +222,7 @@ export default function Employees() {
           <div className="px-6 py-4 border-b border-gray-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div className="flex items-center gap-3">
               <h2 className="text-lg font-semibold text-gray-800">Employees</h2>
-              <span className="bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">
+              <span className="bg-teal-100 text-teal-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">
                 {employees.length}
               </span>
             </div>
@@ -233,7 +233,7 @@ export default function Employees() {
                 placeholder="Search employees..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-9 pr-3 py-1.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-shadow w-full sm:w-48"
+                className="pl-9 pr-3 py-1.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-shadow w-full sm:w-48"
               />
             </div>
           </div>
@@ -315,6 +315,14 @@ export default function Employees() {
               </table>
             </div>
           </div>
+
+          {filteredEmployees.length === 0 && searchTerm && (
+            <div className="px-6 py-12 text-center">
+              <Search className="w-8 h-8 text-gray-300 mx-auto mb-3" />
+              <p className="text-sm font-medium text-gray-800">No results for &ldquo;{searchTerm}&rdquo;</p>
+              <p className="text-xs text-gray-500 mt-1">Try a different name, ID, email, or department</p>
+            </div>
+          )}
         </div>
       )}
 
@@ -342,7 +350,7 @@ export default function Employees() {
               maxLength={20}
               value={form.employee_id}
               onChange={handleFormChange}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-shadow"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-shadow"
               placeholder="e.g. EMP001"
             />
           </div>
@@ -361,7 +369,7 @@ export default function Employees() {
               type="text"
               value={form.full_name}
               onChange={handleFormChange}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-shadow"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-shadow"
               placeholder="e.g. John Doe"
             />
           </div>
@@ -380,7 +388,7 @@ export default function Employees() {
               type="text"
               value={form.email}
               onChange={handleFormChange}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-shadow"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-shadow"
               placeholder="e.g. john@company.com"
             />
           </div>
@@ -398,7 +406,7 @@ export default function Employees() {
               name="department"
               value={form.department}
               onChange={handleFormChange}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-shadow"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-shadow"
             >
               <option value="" disabled>
                 Select a department
@@ -423,7 +431,7 @@ export default function Employees() {
             <button
               type="submit"
               disabled={submitting}
-              className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 text-sm font-medium text-white bg-teal-600 rounded-lg hover:bg-teal-700 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {submitting ? "Adding..." : "Add Employee"}
             </button>
@@ -469,7 +477,7 @@ export default function Employees() {
             <div className="pt-2 flex justify-between items-center border-t border-gray-100">
               <Link
                 to={`/attendance?employee=${detailTarget.employee_id}`}
-                className="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors"
+                className="text-sm font-medium text-teal-600 hover:text-teal-800 transition-colors"
               >
                 View Attendance →
               </Link>

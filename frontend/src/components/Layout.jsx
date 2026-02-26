@@ -19,7 +19,7 @@ export default function Layout() {
           >
             <Menu className="w-6 h-6" />
           </button>
-          <Link to="/" className="text-lg font-bold text-indigo-700 hover:text-indigo-900 transition-colors">HRMS Lite</Link>
+          <Link to="/" className="text-lg font-bold text-teal-700 hover:text-teal-900 transition-colors">HRMS Lite</Link>
         </header>
         <main className="flex-1 overflow-auto p-4 md:p-8">
           <Outlet />

@@ -7,6 +7,7 @@ import ErrorMessage from "../components/ErrorMessage";
 import Modal from "../components/Modal";
 import { CardSkeleton, TableSkeleton } from "../components/Skeleton";
 import usePageTitle from "../hooks/usePageTitle";
+import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 
 export default function Dashboard() {
   usePageTitle("Dashboard");
@@ -69,7 +70,7 @@ export default function Dashboard() {
         <div className="flex justify-center mt-4">
           <Link
             to="/employees"
-            className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 transition-colors"
+            className="inline-flex items-center gap-2 rounded-lg bg-teal-600 px-4 py-2 text-sm font-medium text-white hover:bg-teal-700 transition-colors"
           >
             <Plus className="w-4 h-4" />
             Add Employees
@@ -161,50 +162,76 @@ export default function Dashboard() {
         })}
       </div>
 
-      {/* Department Breakdown */}
-      <div className="bg-white rounded-xl shadow-sm overflow-hidden mt-6">
-        <div className="px-6 py-4 border-b border-gray-100">
-          <h2 className="text-lg font-semibold text-gray-800">
-            Department Overview
-          </h2>
+      {/* Charts Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+        {/* Attendance Donut */}
+        <div className="bg-white rounded-xl shadow-sm p-6">
+          <h2 className="text-lg font-semibold text-gray-800 mb-4">Today's Attendance</h2>
+          {summary.total_employees > 0 ? (
+            <div className="flex flex-col items-center">
+              <ResponsiveContainer width="100%" height={220}>
+                <PieChart>
+                  <Pie
+                    data={[
+                      { name: "Present", value: summary.present_today, color: "#059669" },
+                      { name: "Absent", value: summary.absent_today, color: "#DC2626" },
+                      { name: "Unmarked", value: summary.unmarked_today, color: "#D97706" },
+                    ].filter(d => d.value > 0)}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={60}
+                    outerRadius={90}
+                    paddingAngle={3}
+                    dataKey="value"
+                  >
+                    {[
+                      { color: "#059669" },
+                      { color: "#DC2626" },
+                      { color: "#D97706" },
+                    ].filter((_, i) => [summary.present_today, summary.absent_today, summary.unmarked_today][i] > 0)
+                     .map((entry, index) => (
+                      <Cell key={index} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                </PieChart>
+              </ResponsiveContainer>
+              <div className="flex gap-6 mt-2">
+                <div className="flex items-center gap-2">
+                  <span className="w-3 h-3 rounded-full bg-green-600" />
+                  <span className="text-xs text-gray-600">Present ({summary.present_today})</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="w-3 h-3 rounded-full bg-red-600" />
+                  <span className="text-xs text-gray-600">Absent ({summary.absent_today})</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="w-3 h-3 rounded-full bg-amber-600" />
+                  <span className="text-xs text-gray-600">Unmarked ({summary.unmarked_today})</span>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <p className="text-sm text-gray-400 text-center py-8">No attendance data</p>
+          )}
         </div>
 
-        {departments.length === 0 ? (
-          <div className="px-6 py-12 text-center">
-            <p className="text-sm text-gray-400">No department data available</p>
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="bg-gray-50 text-left">
-                  <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Department
-                  </th>
-                  <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-right">
-                    Employees
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100">
-                {departments.map((dept, index) => (
-                  <tr
-                    key={dept.department}
-                    className={`${index % 2 === 1 ? "bg-gray-50" : "bg-white"} hover:bg-indigo-50 cursor-pointer transition-colors`}
-                    onClick={() => navigate("/employees?search=" + encodeURIComponent(dept.department))}
-                  >
-                    <td className="px-6 py-3 text-sm text-gray-800">
-                      {dept.department}
-                    </td>
-                    <td className="px-6 py-3 text-sm text-gray-600 text-right font-medium">
-                      {dept.count}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+        {/* Department Bar Chart */}
+        <div className="bg-white rounded-xl shadow-sm p-6">
+          <h2 className="text-lg font-semibold text-gray-800 mb-4">Employees by Department</h2>
+          {departments.length > 0 ? (
+            <ResponsiveContainer width="100%" height={departments.length * 44 + 20}>
+              <BarChart data={departments} layout="vertical" margin={{ left: 0, right: 20 }}>
+                <XAxis type="number" allowDecimals={false} tick={{ fontSize: 12 }} />
+                <YAxis type="category" dataKey="department" width={110} tick={{ fontSize: 12 }} />
+                <Tooltip />
+                <Bar dataKey="count" fill="#0D9488" radius={[0, 4, 4, 0]} barSize={24} />
+              </BarChart>
+            </ResponsiveContainer>
+          ) : (
+            <p className="text-sm text-gray-400 text-center py-8">No department data</p>
+          )}
+        </div>
       </div>
 
       {/* ── Stat Card Detail Modal ── */}
@@ -224,7 +251,7 @@ export default function Dashboard() {
                     <Link
                       to={`/attendance?employee=${emp.employee_id}`}
                       onClick={() => setDetailModal(null)}
-                      className="text-xs font-medium text-indigo-600 hover:text-indigo-800 transition-colors"
+                      className="text-xs font-medium text-teal-600 hover:text-teal-800 transition-colors"
                     >
                       View Attendance
                     </Link>

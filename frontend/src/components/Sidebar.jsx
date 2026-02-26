@@ -34,11 +34,11 @@ export default function Sidebar({ isOpen, onClose }) {
 
       <aside className={`
         fixed md:static inset-y-0 left-0 z-50
-        w-64 bg-indigo-700 text-white flex flex-col min-h-screen
+        w-64 bg-slate-800 text-white flex flex-col min-h-screen
         transform transition-transform duration-300 ease-in-out
         ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0
       `}>
-        <Link to="/" className="px-6 py-5 flex items-center gap-3 border-b border-indigo-600/50 bg-gradient-to-r from-indigo-800 to-indigo-700 hover:from-indigo-700 hover:to-indigo-600 transition-all">
+        <Link to="/" className="px-6 py-5 flex items-center gap-3 border-b border-slate-700/50 bg-gradient-to-r from-slate-900 to-slate-800 hover:from-slate-800 hover:to-slate-700 transition-all">
           <Briefcase className="w-7 h-7" />
           <h1 className="text-xl font-bold tracking-wide">HRMS Lite</h1>
         </Link>
@@ -52,8 +52,8 @@ export default function Sidebar({ isOpen, onClose }) {
               className={({ isActive }) =>
                 `flex items-center gap-3 px-3 py-3 rounded-lg text-sm font-medium transition-colors ${
                   isActive
-                    ? "bg-indigo-600 text-white"
-                    : "text-indigo-100 hover:bg-white/10"
+                    ? "bg-slate-700 text-white"
+                    : "text-slate-300 hover:bg-slate-700/50"
                 }`
               }
             >
@@ -63,7 +63,7 @@ export default function Sidebar({ isOpen, onClose }) {
           ))}
         </nav>
 
-        <div className="px-6 py-4 text-xs text-indigo-300 border-t border-indigo-600">
+        <div className="px-6 py-4 text-xs text-slate-500 border-t border-slate-700">
           &copy; 2026 HRMS Lite
         </div>
       </aside>

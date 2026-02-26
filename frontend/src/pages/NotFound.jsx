@@ -9,7 +9,7 @@ export default function NotFound() {
       </div>
       <h1 className="text-4xl font-bold text-gray-800 mb-2">404</h1>
       <p className="text-gray-500 mb-6">The page you're looking for doesn't exist.</p>
-      <Link to="/" className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
+      <Link to="/" className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
         Back to Dashboard
       </Link>
     </div>
