@@ -13,7 +13,7 @@ export default function App() {
   return (
     <ErrorBoundary>
       <BrowserRouter>
-        <Suspense fallback={<LoadingSpinner />}>
+        <Suspense fallback={<div className="h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900"><LoadingSpinner /></div>}>
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route index element={<Dashboard />} />
