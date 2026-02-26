@@ -56,8 +56,12 @@ A lightweight Human Resource Management System for managing employee records and
 - **404 Page** — Custom not-found page for undefined routes
 - **Modal Animations** — Fade-in/scale-in transitions, Escape key dismissal, auto-focus, scroll on overflow, focus restore
 - **Toast Notifications** — Slide-in success notifications with action links and auto-dismiss
+- **Dark Mode** — Full dark theme with system preference detection, localStorage persistence, and FOUC prevention
+- **Theme Toggle** — Sun/Moon toggle in sidebar and mobile header
+- **SVG Logo** — Custom teal "H" mark replacing generic icon
+- **Slate/Teal Color Scheme** — Corporate dark sidebar with teal accents, opacity-based icon backgrounds
 - **Lucide Icons** — Professional SVG icon library throughout
-- **Inter Font** — Custom typography via Google Fonts
+- **Manrope Font** — Geometric modern typeface via Google Fonts
 - **Code Splitting** — Lazy-loaded route pages via React.lazy + Suspense
 - **Dynamic Page Titles** — Browser tab updates per page
 - **Accessible** — ARIA labels, role="alert", aria-modal, focus rings on all interactive elements, keyboard navigation
