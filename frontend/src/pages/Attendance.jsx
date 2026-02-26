@@ -121,8 +121,17 @@ export default function Attendance() {
     setMarkError(null);
   };
 
+  const validateMarkForm = () => {
+    if (!markForm.employee_id) return "Please select an employee.";
+    if (!markForm.date) return "Please select a date.";
+    if (!markForm.status) return "Please select a status.";
+    return null;
+  };
+
   const handleMarkSubmit = async (e) => {
     e.preventDefault();
+    const validationError = validateMarkForm();
+    if (validationError) { setMarkError(validationError); return; }
     setMarkError(null);
     setSubmitting(true);
     try {
@@ -349,7 +358,7 @@ export default function Attendance() {
         onClose={closeMarkModal}
         title="Mark Attendance"
       >
-        <form onSubmit={handleMarkSubmit} className="space-y-4">
+        <form onSubmit={handleMarkSubmit} noValidate className="space-y-4">
           {markError && (
             <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg p-3">
               {markError}
@@ -367,7 +376,6 @@ export default function Attendance() {
             <select
               id="mark-employee"
               name="employee_id"
-              required
               autoFocus
               value={markForm.employee_id}
               onChange={handleMarkFormChange}
@@ -396,7 +404,6 @@ export default function Attendance() {
               id="mark-date"
               name="date"
               type="date"
-              required
               max={new Date().toISOString().split("T")[0]}
               value={markForm.date}
               onChange={handleMarkFormChange}

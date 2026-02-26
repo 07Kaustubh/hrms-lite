@@ -72,8 +72,21 @@ export default function Employees() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const validateForm = () => {
+    if (!form.employee_id.trim()) return "Employee ID is required.";
+    if (!/^[A-Za-z0-9-]+$/.test(form.employee_id)) return "Employee ID can only contain letters, numbers, and hyphens.";
+    if (form.employee_id.length > 20) return "Employee ID must be 20 characters or less.";
+    if (!form.full_name.trim()) return "Full Name is required.";
+    if (!form.email.trim()) return "Email is required.";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) return "Please enter a valid email address.";
+    if (!form.department) return "Please select a department.";
+    return null;
+  };
+
   const handleAddSubmit = async (e) => {
     e.preventDefault();
+    const validationError = validateForm();
+    if (validationError) { setFormError(validationError); return; }
     setFormError(null);
     setSubmitting(true);
     try {
@@ -248,7 +261,7 @@ export default function Employees() {
 
       {/* ── Add Employee Modal ── */}
       <Modal isOpen={showAddModal} onClose={closeAddModal} title="Add Employee">
-        <form onSubmit={handleAddSubmit} className="space-y-4">
+        <form onSubmit={handleAddSubmit} noValidate className="space-y-4">
           {formError && (
             <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg p-3">
               {formError}
@@ -267,11 +280,8 @@ export default function Employees() {
               id="employee_id"
               name="employee_id"
               type="text"
-              required
               autoFocus
-              pattern="[A-Za-z0-9\-]+"
               maxLength={20}
-              title="Only letters, numbers, and hyphens allowed"
               value={form.employee_id}
               onChange={handleFormChange}
               className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-shadow"
@@ -291,7 +301,6 @@ export default function Employees() {
               id="full_name"
               name="full_name"
               type="text"
-              required
               value={form.full_name}
               onChange={handleFormChange}
               className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-shadow"
@@ -310,8 +319,7 @@ export default function Employees() {
             <input
               id="email"
               name="email"
-              type="email"
-              required
+              type="text"
               value={form.email}
               onChange={handleFormChange}
               className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-shadow"
@@ -330,7 +338,6 @@ export default function Employees() {
             <select
               id="department"
               name="department"
-              required
               value={form.department}
               onChange={handleFormChange}
               className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-shadow"
