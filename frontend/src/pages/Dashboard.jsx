@@ -182,8 +182,9 @@ export default function Dashboard() {
                       cy="50%"
                       innerRadius={60}
                       outerRadius={90}
-                      paddingAngle={3}
+                      paddingAngle={4}
                       dataKey="value"
+                      stroke="none"
                     >
                       {[
                         { color: "#059669" },
