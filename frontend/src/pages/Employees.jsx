@@ -5,6 +5,7 @@ import EmptyState from "../components/EmptyState";
 import ErrorMessage from "../components/ErrorMessage";
 import Modal from "../components/Modal";
 import ConfirmDialog from "../components/ConfirmDialog";
+import Toast from "../components/Toast";
 
 const DEPARTMENTS = [
   "Engineering",
@@ -61,10 +62,7 @@ export default function Employees() {
   }, []);
 
   // ── Notification helper ──
-  const showNotification = (message) => {
-    setNotification(message);
-    setTimeout(() => setNotification(null), 3000);
-  };
+  const showNotification = (message) => setNotification(message);
 
   // ── Add employee ──
   const handleFormChange = (e) => {
@@ -141,24 +139,7 @@ export default function Employees() {
   return (
     <div>
       {/* ── Success notification ── */}
-      {notification && (
-        <div className="bg-green-50 border border-green-200 text-green-700 rounded-lg p-4 mb-4 flex items-center gap-2">
-          <svg
-            className="w-5 h-5 shrink-0"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-          <span className="text-sm font-medium">{notification}</span>
-        </div>
-      )}
+      {notification && <Toast message={notification} onDismiss={() => setNotification(null)} />}
 
       {/* ── Page header ── */}
       <div className="flex justify-between items-center mb-6">
