@@ -98,31 +98,31 @@ export default function Dashboard() {
     {
       label: "Total Employees",
       value: summary.total_employees,
-      bgColor: "bg-blue-100",
-      textColor: "text-blue-600",
+      bgColor: "bg-teal-500/15",
+      textColor: "text-teal-600",
       icon: Users,
       key: "total",
     },
     {
       label: "Present Today",
       value: summary.present_today,
-      bgColor: "bg-green-100",
-      textColor: "text-green-600",
+      bgColor: "bg-emerald-500/15",
+      textColor: "text-emerald-600",
       icon: UserCheck,
       key: "present",
     },
     {
       label: "Absent Today",
       value: summary.absent_today,
-      bgColor: "bg-red-100",
-      textColor: "text-red-600",
+      bgColor: "bg-rose-500/15",
+      textColor: "text-rose-600",
       icon: UserX,
       key: "absent",
     },
     {
       label: "Unmarked Today",
       value: summary.unmarked_today,
-      bgColor: "bg-amber-100",
+      bgColor: "bg-amber-500/15",
       textColor: "text-amber-600",
       icon: Clock,
       key: "unmarked",
@@ -194,7 +194,7 @@ export default function Dashboard() {
                         <Cell key={index} fill={entry.color} />
                       ))}
                     </Pie>
-                    <Tooltip />
+                    <Tooltip contentStyle={{ backgroundColor: "#1f2937", border: "1px solid #374151", borderRadius: "8px", color: "#f3f4f6" }} />
                   </PieChart>
                 </ResponsiveContainer>
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
@@ -235,9 +235,9 @@ export default function Dashboard() {
                 }}
                 style={{ cursor: "pointer" }}
               >
-                <XAxis type="number" allowDecimals={false} tick={{ fontSize: 12 }} />
-                <YAxis type="category" dataKey="department" width={110} tick={{ fontSize: 12 }} />
-                <Tooltip />
+                <XAxis type="number" allowDecimals={false} tick={{ fontSize: 12, fill: "#9CA3AF" }} />
+                <YAxis type="category" dataKey="department" width={110} tick={{ fontSize: 12, fill: "#9CA3AF" }} />
+                <Tooltip contentStyle={{ backgroundColor: "var(--color-gray-800, #1f2937)", border: "1px solid #374151", borderRadius: "8px", color: "#f3f4f6" }} />
                 <Bar dataKey="count" fill="#0D9488" radius={[0, 4, 4, 0]} barSize={24} />
               </BarChart>
             </ResponsiveContainer>

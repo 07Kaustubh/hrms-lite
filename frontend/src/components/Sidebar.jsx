@@ -53,7 +53,7 @@ export default function Sidebar({ isOpen, onClose, dark, toggle }) {
               className={({ isActive }) =>
                 `flex items-center gap-3 px-3 py-3 rounded-lg text-sm font-medium transition-colors ${
                   isActive
-                    ? "bg-slate-700 text-white"
+                    ? "bg-teal-600/20 text-teal-400 border-l-2 border-teal-400"
                     : "text-slate-300 hover:bg-slate-700/50"
                 }`
               }
