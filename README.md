@@ -46,18 +46,20 @@ A lightweight Human Resource Management System for managing employee records and
 - **Connected Navigation** — All links carry context (department filters, employee pre-selection, post-add CTA)
 
 ### UI/UX Polish
-- **Responsive Design** — Mobile-first layout with collapsible sidebar and hamburger menu
+- **Responsive Design** — Mobile card layout for employees, collapsible sidebar, stacking headers on small screens
+- **Custom Date Picker** — React Day Picker replaces native date inputs; closes on outside click, shows human-readable dates
 - **Skeleton Loading** — Animated skeleton screens for tables and cards during data fetches
-- **Error Boundary** — React error boundary prevents full app crashes with friendly fallback UI
+- **Error Boundary** — React error boundary with focus restoration on close
 - **404 Page** — Custom not-found page for undefined routes
-- **Modal Animations** — Fade-in/scale-in transitions with Escape key dismissal and auto-focus
+- **Modal Animations** — Fade-in/scale-in transitions, Escape key dismissal, auto-focus, scroll on overflow, focus restore
 - **Toast Notifications** — Slide-in success notifications with action links and auto-dismiss
-- **Lucide Icons** — Professional SVG icon library throughout (no emojis)
-- **Inter Font** — Custom typography via Google Fonts for polished appearance
+- **Lucide Icons** — Professional SVG icon library throughout
+- **Inter Font** — Custom typography via Google Fonts
 - **Code Splitting** — Lazy-loaded route pages via React.lazy + Suspense
-- **Dynamic Page Titles** — Browser tab updates per page (e.g., "Dashboard | HRMS Lite")
-- **Accessible** — ARIA labels on icon buttons, role="alert" on notifications, aria-modal on dialogs
-- **Custom Validation** — No native browser popups; all validation shows inline styled error messages
+- **Dynamic Page Titles** — Browser tab updates per page
+- **Accessible** — ARIA labels, role="alert", aria-modal, focus rings on all interactive elements, keyboard navigation
+- **Custom Validation** — No native browser popups; inline styled error messages with date range validation
+- **Toggle Confirmation** — Attendance status changes require confirmation before saving
 
 ### Backend Hardening
 - **Health Check** — `GET /api/health` verifies MongoDB connectivity (returns 503 if disconnected)
