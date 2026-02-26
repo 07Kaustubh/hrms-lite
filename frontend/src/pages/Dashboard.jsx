@@ -248,7 +248,7 @@ export default function Dashboard() {
                   itemStyle={{ color: "#f3f4f6" }}
                   labelStyle={{ color: "#9CA3AF" }}
                   cursor={{ fill: "rgba(13, 148, 136, 0.1)" }}
-                  formatter={(value) => [`${value} employee${value !== 1 ? "s" : ""}`, null]}
+                  formatter={(value) => [value, null]}
                   separator=""
                 />
                 <Bar dataKey="count" fill="#0D9488" radius={[0, 4, 4, 0]} barSize={24} />
