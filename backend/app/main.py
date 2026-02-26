@@ -7,7 +7,10 @@ from app.routes import employees, attendance, dashboard
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    await create_indexes()
+    try:
+        await create_indexes()
+    except Exception as e:
+        print(f"Warning: Failed to create indexes on startup: {e}")
     yield
 
 
