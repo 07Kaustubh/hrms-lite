@@ -32,6 +32,36 @@ async def get_summary():
     )
 
 
+@router.get("/today-details", summary="Today's attendance details", description="Returns employee names grouped by today's attendance status (present, absent, unmarked).")
+async def get_today_details():
+    today = date.today().isoformat()
+
+    # Get all employees
+    all_employees = {}
+    async for emp in employees_collection.find():
+        all_employees[emp["employee_id"]] = emp["full_name"]
+
+    # Get today's attendance records
+    marked = {}
+    async for rec in attendance_collection.find({"date": today}):
+        marked[rec["employee_id"]] = rec["status"]
+
+    present = []
+    absent = []
+    unmarked = []
+    for emp_id, name in all_employees.items():
+        status = marked.get(emp_id)
+        entry = {"employee_id": emp_id, "full_name": name}
+        if status == "Present":
+            present.append(entry)
+        elif status == "Absent":
+            absent.append(entry)
+        else:
+            unmarked.append(entry)
+
+    return {"present": present, "absent": absent, "unmarked": unmarked}
+
+
 @router.post("/seed", status_code=200, summary="Seed sample data", description="Clears existing data and populates the database with 10 sample employees and 3 weeks of attendance records. Idempotent.")
 async def seed_database():
     await run_seed()

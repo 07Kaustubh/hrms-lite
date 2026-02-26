@@ -34,4 +34,5 @@ export const attendanceApi = {
 
 export const dashboardApi = {
   summary: () => api.get("/api/dashboard/summary"),
+  todayDetails: () => api.get("/api/dashboard/today-details"),
 };

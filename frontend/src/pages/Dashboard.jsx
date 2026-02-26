@@ -4,6 +4,7 @@ import { Users, UserCheck, UserX, Clock, Plus, ChevronRight } from "lucide-react
 import { dashboardApi } from "../services/api";
 import EmptyState from "../components/EmptyState";
 import ErrorMessage from "../components/ErrorMessage";
+import Modal from "../components/Modal";
 import { CardSkeleton, TableSkeleton } from "../components/Skeleton";
 import usePageTitle from "../hooks/usePageTitle";
 
@@ -13,13 +14,19 @@ export default function Dashboard() {
   const [summary, setSummary] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [detailModal, setDetailModal] = useState(null); // { title, employees, color }
+  const [todayDetails, setTodayDetails] = useState(null);
 
   const fetchSummary = async () => {
     try {
       setLoading(true);
       setError(null);
-      const { data } = await dashboardApi.summary();
-      setSummary(data);
+      const [summaryRes, detailsRes] = await Promise.all([
+        dashboardApi.summary(),
+        dashboardApi.todayDetails(),
+      ]);
+      setSummary(summaryRes.data);
+      setTodayDetails(detailsRes.data);
     } catch (err) {
       setError(err.response?.data?.detail || "Failed to load dashboard");
     } finally {
@@ -72,6 +79,20 @@ export default function Dashboard() {
     );
   }
 
+  const handleCardClick = (key) => {
+    if (key === "total") {
+      navigate("/employees");
+      return;
+    }
+    if (!todayDetails) return;
+    const map = {
+      present: { title: "Present Today", employees: todayDetails.present, color: "text-green-600" },
+      absent: { title: "Absent Today", employees: todayDetails.absent, color: "text-red-600" },
+      unmarked: { title: "Unmarked Today", employees: todayDetails.unmarked, color: "text-amber-600" },
+    };
+    setDetailModal(map[key] || null);
+  };
+
   const statCards = [
     {
       label: "Total Employees",
@@ -79,7 +100,7 @@ export default function Dashboard() {
       bgColor: "bg-blue-100",
       textColor: "text-blue-600",
       icon: Users,
-      link: "/employees",
+      key: "total",
     },
     {
       label: "Present Today",
@@ -87,7 +108,7 @@ export default function Dashboard() {
       bgColor: "bg-green-100",
       textColor: "text-green-600",
       icon: UserCheck,
-      link: "/attendance",
+      key: "present",
     },
     {
       label: "Absent Today",
@@ -95,7 +116,7 @@ export default function Dashboard() {
       bgColor: "bg-red-100",
       textColor: "text-red-600",
       icon: UserX,
-      link: "/attendance",
+      key: "absent",
     },
     {
       label: "Unmarked Today",
@@ -103,7 +124,7 @@ export default function Dashboard() {
       bgColor: "bg-amber-100",
       textColor: "text-amber-600",
       icon: Clock,
-      link: "/attendance",
+      key: "unmarked",
     },
   ];
 
@@ -120,9 +141,9 @@ export default function Dashboard() {
         {statCards.map((card) => {
           const IconComponent = card.icon;
           return (
-            <Link
+            <div
               key={card.label}
-              to={card.link}
+              onClick={() => handleCardClick(card.key)}
               className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-6 flex items-center gap-4 cursor-pointer group"
             >
               <div
@@ -135,7 +156,7 @@ export default function Dashboard() {
                 <p className="text-sm text-gray-500">{card.label}</p>
               </div>
               <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-gray-500 transition-colors" />
-            </Link>
+            </div>
           );
         })}
       </div>
@@ -185,6 +206,35 @@ export default function Dashboard() {
           </div>
         )}
       </div>
+
+      {/* ── Stat Card Detail Modal ── */}
+      <Modal isOpen={!!detailModal} onClose={() => setDetailModal(null)} title={detailModal?.title || ""}>
+        {detailModal && (
+          <div>
+            {detailModal.employees.length === 0 ? (
+              <p className="text-sm text-gray-500 py-4 text-center">No employees in this category today.</p>
+            ) : (
+              <ul className="divide-y divide-gray-100">
+                {detailModal.employees.map((emp) => (
+                  <li key={emp.employee_id} className="py-3 flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-gray-800">{emp.full_name}</p>
+                      <p className="text-xs text-gray-500">{emp.employee_id}</p>
+                    </div>
+                    <Link
+                      to={`/attendance`}
+                      onClick={() => setDetailModal(null)}
+                      className="text-xs font-medium text-indigo-600 hover:text-indigo-800 transition-colors"
+                    >
+                      View Attendance
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )}
+      </Modal>
     </div>
   );
 }
