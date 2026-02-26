@@ -222,7 +222,7 @@ export default function Dashboard() {
                       <p className="text-xs text-gray-500">{emp.employee_id}</p>
                     </div>
                     <Link
-                      to={`/attendance`}
+                      to={`/attendance?employee=${emp.employee_id}`}
                       onClick={() => setDetailModal(null)}
                       className="text-xs font-medium text-indigo-600 hover:text-indigo-800 transition-colors"
                     >
