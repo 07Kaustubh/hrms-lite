@@ -316,7 +316,6 @@ export default function Employees() {
               id="employee_id"
               name="employee_id"
               type="text"
-              autoFocus
               maxLength={20}
               value={form.employee_id}
               onChange={handleFormChange}
@@ -446,7 +445,7 @@ export default function Employees() {
             </div>
             <div className="pt-2 flex justify-between items-center border-t border-gray-100">
               <Link
-                to="/attendance"
+                to={`/attendance?employee=${detailTarget.employee_id}`}
                 className="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors"
               >
                 View Attendance →

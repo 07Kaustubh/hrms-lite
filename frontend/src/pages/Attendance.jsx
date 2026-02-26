@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { Plus, UserSearch, ClipboardList } from "lucide-react";
 import { employeeApi, attendanceApi } from "../services/api";
 import LoadingSpinner from "../components/LoadingSpinner";
@@ -22,13 +22,15 @@ const INITIAL_MARK_FORM = {
 
 export default function Attendance() {
   usePageTitle("Attendance");
+  const [searchParams] = useSearchParams();
+
   // ── Employee list state ──
   const [employees, setEmployees] = useState([]);
   const [employeesLoading, setEmployeesLoading] = useState(true);
   const [employeesError, setEmployeesError] = useState(null);
 
   // ── Filter state ──
-  const [selectedEmployee, setSelectedEmployee] = useState("");
+  const [selectedEmployee, setSelectedEmployee] = useState(searchParams.get("employee") || "");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
@@ -409,7 +411,6 @@ export default function Attendance() {
             <select
               id="mark-employee"
               name="employee_id"
-              autoFocus
               value={markForm.employee_id}
               onChange={handleMarkFormChange}
               className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-shadow"

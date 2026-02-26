@@ -3,20 +3,22 @@ import { X } from "lucide-react";
 
 export default function Modal({ isOpen, onClose, title, children }) {
   const panelRef = useRef(null);
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
 
   useEffect(() => {
     if (!isOpen) return;
 
     // Escape key handler
     const handleKeyDown = (e) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") onCloseRef.current();
     };
     document.addEventListener("keydown", handleKeyDown);
 
     // Lock body scroll
     document.body.style.overflow = "hidden";
 
-    // Auto-focus first input
+    // Auto-focus first input (only on open, not on re-renders)
     setTimeout(() => {
       const firstInput = panelRef.current?.querySelector("input, select, textarea");
       if (firstInput) firstInput.focus();
@@ -26,7 +28,7 @@ export default function Modal({ isOpen, onClose, title, children }) {
       document.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "";
     };
-  }, [isOpen, onClose]);
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
