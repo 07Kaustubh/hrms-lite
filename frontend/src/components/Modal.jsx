@@ -9,6 +9,8 @@ export default function Modal({ isOpen, onClose, title, children }) {
   useEffect(() => {
     if (!isOpen) return;
 
+    const previousFocus = document.activeElement;
+
     // Escape key handler
     const handleKeyDown = (e) => {
       if (e.key === "Escape") onCloseRef.current();
@@ -27,6 +29,7 @@ export default function Modal({ isOpen, onClose, title, children }) {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "";
+      if (previousFocus instanceof HTMLElement) previousFocus.focus();
     };
   }, [isOpen]);
 
@@ -48,7 +51,7 @@ export default function Modal({ isOpen, onClose, title, children }) {
       {/* Panel with scale animation */}
       <div
         ref={panelRef}
-        className="relative z-10 w-full max-w-md mx-4 bg-white rounded-xl shadow-xl animate-[scaleIn_200ms_ease-out]"
+        className="relative z-10 w-full max-w-md mx-4 bg-white rounded-xl shadow-xl animate-[scaleIn_200ms_ease-out] max-h-[85vh] overflow-y-auto"
       >
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
           <h2 id="modal-title" className="text-lg font-semibold text-gray-800">{title}</h2>

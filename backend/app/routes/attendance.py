@@ -4,11 +4,11 @@ from pydantic import BaseModel
 from pymongo import ReturnDocument
 from pymongo.errors import DuplicateKeyError
 from app.database import employees_collection, attendance_collection
-from app.models import AttendanceCreate, AttendanceResponse
+from app.models import AttendanceCreate, AttendanceResponse, AttendanceStatus
 
 
 class AttendanceStatusUpdate(BaseModel):
-    status: str
+    status: AttendanceStatus
 
 router = APIRouter(prefix="/api/attendance", tags=["attendance"])
 

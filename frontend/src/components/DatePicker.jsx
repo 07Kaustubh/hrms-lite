@@ -34,7 +34,9 @@ export default function DatePicker({ value, onChange, max, id, name }) {
         type="button"
         id={id}
         onClick={() => setOpen(!open)}
-        className="w-full border border-gray-300 rounded-lg px-3 py-2 text-left text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-shadow flex items-center justify-between"
+        className={`w-full border rounded-lg px-3 py-2 text-left text-sm outline-none transition-shadow flex items-center justify-between ${
+          open ? "ring-2 ring-indigo-500 border-indigo-500" : "border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+        }`}
       >
         <span className={value ? "text-gray-800" : "text-gray-400"}>
           {value ? format(parse(value, "yyyy-MM-dd", new Date()), "MMM d, yyyy") : "Select a date"}
@@ -42,7 +44,7 @@ export default function DatePicker({ value, onChange, max, id, name }) {
         <Calendar className="w-4 h-4 text-gray-400" />
       </button>
       {open && (
-        <div className="absolute z-50 mt-1 bg-white border border-gray-200 rounded-xl shadow-lg">
+        <div className="absolute z-[100] mt-1 bg-white border border-gray-200 rounded-xl shadow-lg">
           <DayPicker
             mode="single"
             selected={selected}

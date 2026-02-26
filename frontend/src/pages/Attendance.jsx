@@ -46,6 +46,9 @@ export default function Attendance() {
   const [markError, setMarkError] = useState(null);
   const [submitting, setSubmitting] = useState(false);
 
+  // ── Toggle loading state ──
+  const [togglingDate, setTogglingDate] = useState(null);
+
   // ── Notification state ──
   const [notification, setNotification] = useState(null);
 
@@ -72,6 +75,11 @@ export default function Attendance() {
   // ── Fetch attendance when employee or date range changes ──
   const fetchAttendance = async (empId, start, end) => {
     if (!empId) {
+      setAttendance([]);
+      return;
+    }
+    if (start && end && start > end) {
+      setAttendanceError("Start date must be before or equal to end date.");
       setAttendance([]);
       return;
     }
@@ -102,12 +110,16 @@ export default function Attendance() {
   // ── Toggle attendance status ──
   const handleToggleStatus = async (record) => {
     const newStatus = record.status === "Present" ? "Absent" : "Present";
+    if (!window.confirm(`Change ${record.date} from ${record.status} to ${newStatus}?`)) return;
+    setTogglingDate(record.date);
     try {
       await attendanceApi.update(record.employee_id, record.date, { status: newStatus });
       showNotification(`Attendance updated to ${newStatus}`);
       fetchAttendance(selectedEmployee, startDate, endDate);
     } catch (err) {
       setAttendanceError(err.response?.data?.detail || "Failed to update attendance.");
+    } finally {
+      setTogglingDate(null);
     }
   };
 
@@ -371,7 +383,8 @@ export default function Attendance() {
                       <td className="px-6 py-4">
                         <button
                           onClick={() => handleToggleStatus(record)}
-                          className="cursor-pointer hover:opacity-80 transition-opacity"
+                          disabled={togglingDate === record.date}
+                          className={`cursor-pointer transition-opacity rounded focus:ring-2 focus:ring-indigo-500 focus:outline-none ${togglingDate === record.date ? "opacity-50" : "hover:opacity-80"}`}
                           title={`Click to change to ${record.status === "Present" ? "Absent" : "Present"}`}
                         >
                           <StatusBadge status={record.status} />
