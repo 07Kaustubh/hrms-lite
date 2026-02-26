@@ -1,105 +1,221 @@
 # HRMS Lite
 
-A lightweight Human Resource Management System for managing employee records and tracking daily attendance.
+A lightweight Human Resource Management System for managing employee records and tracking daily attendance. Built as a full-stack application with a professional, production-ready interface.
 
 ## Live Demo
 
-- **Frontend:** [Live Application](https://frontend-seven-theta-75.vercel.app)
-- **Backend API:** [API Documentation](https://hrms-lite-api-v346.onrender.com/docs)
+- **Application:** [https://frontend-seven-theta-75.vercel.app](https://frontend-seven-theta-75.vercel.app)
+- **API Documentation:** [https://hrms-lite-api-v346.onrender.com/docs](https://hrms-lite-api-v346.onrender.com/docs)
+- **Health Check:** [https://hrms-lite-api-v346.onrender.com/api/health](https://hrms-lite-api-v346.onrender.com/api/health)
+
+> **Note:** The backend is hosted on Render's free tier and may take 30-60 seconds to wake up on the first request after inactivity. Subsequent requests will be fast.
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Frontend | React 19, Vite 7, Tailwind CSS 4, React Router 7, Axios, Lucide React |
-| Backend | Python, FastAPI, Pydantic |
-| Database | MongoDB Atlas (via Motor async driver) |
-| Deployment | Vercel (frontend), Render (backend) |
+| Layer | Technology | Version |
+|-------|-----------|---------|
+| Frontend | React | 19.2.0 |
+| Build Tool | Vite | 7.3.1 |
+| Styling | Tailwind CSS | 4.2.1 |
+| Routing | React Router | 7.13.1 |
+| HTTP Client | Axios | 1.13.5 |
+| Icons | Lucide React | 0.575.0 |
+| Backend | FastAPI | 0.115.0 |
+| ASGI Server | Uvicorn | 0.30.6 |
+| Async MongoDB Driver | Motor | 3.7.1 |
+| Validation | Pydantic | 2.9.1 |
+| Database | MongoDB Atlas | — |
+| Frontend Hosting | Vercel | — |
+| Backend Hosting | Render | — |
 
 ## Features
 
-### Core
-- **Employee Management** — Add, view, and delete employee records
-- **Attendance Tracking** — Mark daily attendance (Present/Absent) per employee
-- **Server-side Validation** — Required fields, email format, duplicate prevention
+### Core Functionality
+- **Employee Management** — Add, view, and delete employee records with unique ID and email enforcement
+- **Attendance Tracking** — Mark daily attendance (Present/Absent) per employee with duplicate prevention
+- **Server-side Validation** — Required fields, email format (Pydantic EmailStr), whitespace rejection, date validation, pattern-matched employee IDs
 
-### Bonus
-- **Dashboard** — Summary stats with employee counts, today's attendance overview, department breakdown
-- **Date Filtering** — Filter attendance records by date range
-- **Present Day Counts** — Total present/absent summary per employee
+### Bonus Features
+- **Dashboard** — Summary stat cards (total employees, present/absent/unmarked today) with department breakdown table
+- **Date Filtering** — Filter attendance records by start and end date range
+- **Present Day Counts** — Total present/absent summary displayed per employee
+
+### UI/UX Polish
+- **Responsive Design** — Mobile-first layout with collapsible sidebar and hamburger menu
+- **Skeleton Loading** — Animated skeleton screens for tables and cards during data fetches
+- **Error Boundary** — React error boundary prevents full app crashes with friendly fallback UI
+- **404 Page** — Custom not-found page for undefined routes
+- **Modal Animations** — Fade-in/scale-in transitions with Escape key dismissal and auto-focus
+- **Toast Notifications** — Slide-in success notifications with auto-dismiss
+- **Lucide Icons** — Professional SVG icon library throughout
+- **Code Splitting** — Lazy-loaded route pages via React.lazy + Suspense
+- **Dynamic Page Titles** — Browser tab updates per page (e.g., "Dashboard | HRMS Lite")
+- **Accessible** — ARIA labels on icon buttons, role="alert" on notifications, aria-modal on dialogs
+
+### Backend Hardening
+- **Health Check** — `GET /api/health` verifies MongoDB connectivity (returns 503 if disconnected)
+- **Connection Pooling** — Motor configured with maxPoolSize, minPoolSize, and timeouts
+- **Graceful Shutdown** — MongoDB client closed cleanly on app termination
+- **Seed Data** — Pre-populated with 10 employees and 3 weeks of attendance records
 
 ## Project Structure
 
 ```
 hrms-lite/
-├── frontend/          # React + Vite + Tailwind CSS
+├── frontend/                    # React + Vite + Tailwind CSS
 │   ├── src/
-│   │   ├── components/  # Reusable UI components
-│   │   ├── pages/       # Dashboard, Employees, Attendance
-│   │   └── services/    # API client layer
+│   │   ├── components/          # 11 reusable UI components
+│   │   │   ├── Sidebar.jsx      # Responsive sidebar with mobile overlay
+│   │   │   ├── Layout.jsx       # App shell with hamburger menu
+│   │   │   ├── Modal.jsx        # Animated modal with Escape + auto-focus
+│   │   │   ├── Toast.jsx        # Slide-in success notifications
+│   │   │   ├── Skeleton.jsx     # Table/card/filter skeleton loaders
+│   │   │   ├── EmptyState.jsx   # Empty state with Lucide icons
+│   │   │   ├── ErrorMessage.jsx # Error display with retry button
+│   │   │   ├── ErrorBoundary.jsx# React error boundary
+│   │   │   ├── ConfirmDialog.jsx# Delete confirmation dialog
+│   │   │   ├── StatusBadge.jsx  # Present/Absent colored badge
+│   │   │   └── LoadingSpinner.jsx
+│   │   ├── pages/               # 4 route pages (lazy-loaded)
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── Employees.jsx
+│   │   │   ├── Attendance.jsx
+│   │   │   └── NotFound.jsx
+│   │   ├── services/api.js      # Axios client with timeout + interceptors
+│   │   ├── hooks/usePageTitle.js # Dynamic document.title hook
+│   │   ├── utils/formatDate.js  # UTC-safe date formatting
+│   │   ├── App.jsx              # Router + ErrorBoundary + Suspense
+│   │   ├── main.jsx
+│   │   └── index.css            # Tailwind import + keyframe animations
+│   ├── index.html
+│   ├── vite.config.js
+│   ├── vercel.json              # SPA rewrite rules
 │   └── package.json
-├── backend/           # FastAPI + Motor (MongoDB)
+├── backend/                     # FastAPI + Motor (async MongoDB)
 │   ├── app/
-│   │   ├── routes/      # API route handlers
-│   │   ├── models.py    # Pydantic schemas
-│   │   ├── database.py  # MongoDB connection
-│   │   └── main.py      # FastAPI application
-│   └── requirements.txt
+│   │   ├── main.py              # FastAPI app, CORS, lifespan, health check
+│   │   ├── config.py            # Pydantic Settings (env vars)
+│   │   ├── database.py          # Motor client with connection pooling
+│   │   ├── models.py            # Pydantic request/response schemas
+│   │   ├── seed.py              # Database seeding script
+│   │   └── routes/
+│   │       ├── employees.py     # Employee CRUD endpoints
+│   │       ├── attendance.py    # Attendance endpoints with date filtering
+│   │       └── dashboard.py     # Dashboard summary + seed endpoint
+│   ├── requirements.txt
+│   ├── .python-version          # Pins Python 3.11 for Render
+│   ├── .env.example
+│   ├── Procfile
+│   └── render.yaml
 └── README.md
 ```
 
 ## Running Locally
 
 ### Prerequisites
-- Node.js 18+
+- Node.js 18+ and npm
 - Python 3.11+
-- MongoDB (local or Atlas connection string)
+- MongoDB (local instance or Atlas connection string)
 
 ### Backend
 
 ```bash
 cd backend
+
+# Create and activate virtual environment
 python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
+source venv/bin/activate        # macOS/Linux
+# venv\Scripts\activate         # Windows
+
+# Install dependencies
 pip install -r requirements.txt
 
-# Create .env file
+# Configure environment
 cp .env.example .env
 # Edit .env with your MongoDB connection string
 
+# Start the server
 uvicorn app.main:app --reload
-# API available at http://localhost:8000
-# Swagger docs at http://localhost:8000/docs
+# API: http://localhost:8000
+# Swagger docs: http://localhost:8000/docs
+
+# (Optional) Seed sample data
+python -m app.seed
 ```
 
 ### Frontend
 
 ```bash
 cd frontend
+
+# Install dependencies
 npm install
+
+# Start development server
 npm run dev
-# App available at http://localhost:5173
+# App: http://localhost:5173
 ```
 
-To connect to a different backend URL, create `frontend/.env.local`:
+To point the frontend at a different backend, create `frontend/.env.local`:
 ```
 VITE_API_URL=http://localhost:8000
 ```
 
 ## API Endpoints
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | /api/employees | List all employees |
-| POST | /api/employees | Add a new employee |
-| DELETE | /api/employees/:id | Delete an employee |
-| GET | /api/attendance/:id | Get attendance records |
-| POST | /api/attendance | Mark attendance |
-| GET | /api/dashboard/summary | Dashboard statistics |
+| Method | Endpoint | Description | Status Codes |
+|--------|----------|-------------|-------------|
+| `GET` | `/api/employees` | List all employees | 200 |
+| `POST` | `/api/employees` | Add a new employee | 201, 409, 422 |
+| `DELETE` | `/api/employees/:id` | Delete employee and their attendance | 200, 404 |
+| `GET` | `/api/attendance/:id` | Get attendance records (optional `start_date`, `end_date` query params) | 200, 404 |
+| `POST` | `/api/attendance` | Mark attendance | 201, 404, 409, 422 |
+| `GET` | `/api/dashboard/summary` | Dashboard statistics | 200 |
+| `POST` | `/api/dashboard/seed` | Seed sample data (idempotent) | 200 |
+| `GET` | `/api/health` | Health check (MongoDB ping) | 200, 503 |
+
+### Error Responses
+
+All errors return JSON with a `detail` field:
+```json
+{ "detail": "Employee with this ID already exists" }
+```
+
+Validation errors (422) include field-level details:
+```json
+{
+  "detail": [
+    { "loc": ["body", "email"], "msg": "value is not a valid email address", "type": "value_error" }
+  ]
+}
+```
+
+## Database Schema
+
+### employees Collection
+| Field | Type | Constraints |
+|-------|------|------------|
+| employee_id | string | Unique, alphanumeric + hyphens, max 20 chars |
+| full_name | string | Required, 1-100 chars, whitespace-trimmed |
+| email | string | Unique, valid email format |
+| department | string | One of 8 predefined departments |
+| created_at | datetime | Auto-set on creation (UTC) |
+
+### attendance Collection
+| Field | Type | Constraints |
+|-------|------|------------|
+| employee_id | string | Must reference existing employee |
+| date | string | YYYY-MM-DD, must be a valid calendar date |
+| status | string | "Present" or "Absent" |
+| created_at | datetime | Auto-set on creation (UTC) |
+
+**Indexes:** Unique on `employee_id`, unique on `email`, unique compound on `(employee_id, date)`
 
 ## Assumptions & Limitations
 
-- Single admin user (no authentication required per assignment spec)
-- Leave management, payroll, and advanced HR features are out of scope
-- CORS is configured to allow all origins for demo purposes
-- Department list is predefined (Engineering, Marketing, Sales, HR, Finance, Operations, Design, Other)
+- **Single admin user** — No authentication required (per assignment specification)
+- **No leave/payroll** — Leave management, payroll, and advanced HR features are out of scope
+- **Predefined departments** — Engineering, Marketing, Sales, Human Resources, Finance, Operations, Design, Other
+- **CORS** — Configured to allow all origins for demo/evaluation purposes
+- **Render free tier** — Backend may experience 30-60 second cold start after inactivity
+- **No pagination** — Lists return all records (sufficient for the assignment's intended scale)
