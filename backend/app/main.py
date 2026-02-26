@@ -1,7 +1,7 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.database import create_indexes
+from app.database import create_indexes, db
 from app.routes import employees, attendance, dashboard
 
 
@@ -31,3 +31,16 @@ app.include_router(dashboard.router)
 @app.get("/")
 async def root():
     return {"message": "HRMS Lite API is running"}
+
+
+@app.get("/api/health")
+async def health_check():
+    try:
+        await db.command("ping")
+        return {"status": "healthy", "database": "connected"}
+    except Exception:
+        from fastapi.responses import JSONResponse
+        return JSONResponse(
+            status_code=503,
+            content={"status": "unhealthy", "database": "disconnected"}
+        )
