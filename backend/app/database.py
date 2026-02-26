@@ -1,7 +1,13 @@
 from motor.motor_asyncio import AsyncIOMotorClient
 from app.config import settings
 
-client = AsyncIOMotorClient(settings.mongodb_uri)
+client = AsyncIOMotorClient(
+    settings.mongodb_uri,
+    maxPoolSize=50,
+    minPoolSize=5,
+    serverSelectionTimeoutMS=5000,
+    connectTimeoutMS=10000,
+)
 db = client[settings.database_name]
 
 employees_collection = db["employees"]
