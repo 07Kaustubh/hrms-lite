@@ -1,23 +1,28 @@
+import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Layout from "./components/Layout";
-import Dashboard from "./pages/Dashboard";
-import Employees from "./pages/Employees";
-import Attendance from "./pages/Attendance";
+import LoadingSpinner from "./components/LoadingSpinner";
 import NotFound from "./pages/NotFound";
+
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const Employees = lazy(() => import("./pages/Employees"));
+const Attendance = lazy(() => import("./pages/Attendance"));
 
 export default function App() {
   return (
     <ErrorBoundary>
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Dashboard />} />
-            <Route path="employees" element={<Employees />} />
-            <Route path="attendance" element={<Attendance />} />
-            <Route path="*" element={<NotFound />} />
-          </Route>
-        </Routes>
+        <Suspense fallback={<LoadingSpinner />}>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Dashboard />} />
+              <Route path="employees" element={<Employees />} />
+              <Route path="attendance" element={<Attendance />} />
+              <Route path="*" element={<NotFound />} />
+            </Route>
+          </Routes>
+        </Suspense>
       </BrowserRouter>
     </ErrorBoundary>
   );
