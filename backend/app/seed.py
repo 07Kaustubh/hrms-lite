@@ -26,8 +26,8 @@ async def seed():
 
     # Insert employees
     for emp in SEED_EMPLOYEES:
-        emp["created_at"] = datetime.now(timezone.utc)
-        await employees_collection.insert_one(emp)
+        doc = {**emp, "created_at": datetime.now(timezone.utc)}
+        await employees_collection.insert_one(doc)
     print(f"  Created {len(SEED_EMPLOYEES)} employees")
 
     # Generate attendance

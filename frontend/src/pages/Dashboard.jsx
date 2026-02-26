@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { dashboardApi } from "../services/api";
-import LoadingSpinner from "../components/LoadingSpinner";
 import EmptyState from "../components/EmptyState";
 import ErrorMessage from "../components/ErrorMessage";
 import { CardSkeleton, TableSkeleton } from "../components/Skeleton";
@@ -41,7 +40,12 @@ export default function Dashboard() {
   }
 
   if (error) {
-    return <ErrorMessage message={error} onRetry={fetchSummary} />;
+    return (
+      <div>
+        <h1 className="text-2xl font-bold text-gray-800 mb-6">Dashboard</h1>
+        <ErrorMessage message={error} onRetry={fetchSummary} />
+      </div>
+    );
   }
 
   if (summary && summary.total_employees === 0) {

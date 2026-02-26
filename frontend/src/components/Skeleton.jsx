@@ -26,7 +26,7 @@ export function TableSkeleton({ rows = 5, cols = 4 }) {
 
 export function CardSkeleton({ count = 4 }) {
   return (
-    <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-${count} gap-6`}>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       {Array.from({ length: count }).map((_, i) => (
         <div key={i} className="bg-white rounded-xl shadow-sm p-6 flex items-center gap-4">
           <SkeletonBar className="w-12 h-12 rounded-full" />
