@@ -375,6 +375,7 @@ export default function Attendance() {
               id="mark-employee"
               name="employee_id"
               required
+              autoFocus
               value={markForm.employee_id}
               onChange={handleMarkFormChange}
               className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-shadow"
@@ -403,6 +404,7 @@ export default function Attendance() {
               name="date"
               type="date"
               required
+              max={new Date().toISOString().split("T")[0]}
               value={markForm.date}
               onChange={handleMarkFormChange}
               className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-shadow"
