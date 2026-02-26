@@ -28,6 +28,7 @@ export const employeeApi = {
 
 export const attendanceApi = {
   mark: (data) => api.post("/api/attendance", data),
+  update: (empId, date, data) => api.put(`/api/attendance/${empId}/${date}`, data),
   getByEmployee: (id, params) => api.get(`/api/attendance/${id}`, { params }),
 };
 

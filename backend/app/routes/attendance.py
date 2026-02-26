@@ -1,8 +1,14 @@
 from datetime import datetime, timezone
 from fastapi import APIRouter, HTTPException, Query
+from pydantic import BaseModel
+from pymongo import ReturnDocument
 from pymongo.errors import DuplicateKeyError
 from app.database import employees_collection, attendance_collection
 from app.models import AttendanceCreate, AttendanceResponse
+
+
+class AttendanceStatusUpdate(BaseModel):
+    status: str
 
 router = APIRouter(prefix="/api/attendance", tags=["attendance"])
 
@@ -57,3 +63,20 @@ async def get_attendance(
             created_at=rec["created_at"],
         ))
     return records
+
+
+@router.put("/{employee_id}/{date}", response_model=AttendanceResponse, status_code=200, summary="Update attendance status", description="Updates the attendance status for a specific employee on a specific date.")
+async def update_attendance(employee_id: str, date: str, update: AttendanceStatusUpdate):
+    result = await attendance_collection.find_one_and_update(
+        {"employee_id": employee_id, "date": date},
+        {"$set": {"status": update.status}},
+        return_document=ReturnDocument.AFTER
+    )
+    if not result:
+        raise HTTPException(status_code=404, detail="Attendance record not found")
+    return AttendanceResponse(
+        employee_id=result["employee_id"],
+        date=result["date"],
+        status=result["status"],
+        created_at=result["created_at"],
+    )

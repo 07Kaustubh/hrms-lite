@@ -170,7 +170,7 @@ export default function Dashboard() {
                   <tr
                     key={dept.department}
                     className={`${index % 2 === 1 ? "bg-gray-50" : "bg-white"} hover:bg-indigo-50 cursor-pointer transition-colors`}
-                    onClick={() => navigate("/employees")}
+                    onClick={() => navigate("/employees?search=" + encodeURIComponent(dept.department))}
                   >
                     <td className="px-6 py-3 text-sm text-gray-800">
                       {dept.department}

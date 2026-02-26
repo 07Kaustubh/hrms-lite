@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import { Plus, Trash2, Users, Search } from "lucide-react";
 import { employeeApi } from "../services/api";
 import EmptyState from "../components/EmptyState";
@@ -29,15 +30,18 @@ const INITIAL_FORM = {
 
 export default function Employees() {
   usePageTitle("Employees");
+  const [searchParams] = useSearchParams();
+
   // ── Data state ──
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState(searchParams.get("search") || "");
 
   // ── Modal / dialog state ──
   const [showAddModal, setShowAddModal] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState(null); // employee object
+  const [detailTarget, setDetailTarget] = useState(null);
 
   // ── Form state ──
   const [form, setForm] = useState(INITIAL_FORM);
@@ -46,6 +50,7 @@ export default function Employees() {
 
   // ── Notification state ──
   const [notification, setNotification] = useState(null);
+  const [notificationAction, setNotificationAction] = useState(null);
 
   // ── Fetch employees ──
   const fetchEmployees = async () => {
@@ -95,6 +100,7 @@ export default function Employees() {
       setShowAddModal(false);
       setForm(INITIAL_FORM);
       showNotification("Employee added successfully!");
+      setNotificationAction({ label: "Mark Attendance \u2192", href: "/attendance" });
       await fetchEmployees();
     } catch (err) {
       const detail = err.response?.data?.detail;
@@ -129,6 +135,7 @@ export default function Employees() {
       await employeeApi.delete(deleteTarget.employee_id);
       setDeleteTarget(null);
       showNotification("Employee deleted successfully!");
+      setNotificationAction(null);
       await fetchEmployees();
     } catch (err) {
       setDeleteTarget(null);
@@ -163,7 +170,7 @@ export default function Employees() {
   return (
     <div>
       {/* ── Success notification ── */}
-      {notification && <Toast message={notification} onDismiss={() => setNotification(null)} />}
+      {notification && <Toast message={notification} action={notificationAction} onDismiss={() => { setNotification(null); setNotificationAction(null); }} />}
 
       {/* ── Page header ── */}
       <div className="flex justify-between items-center mb-6">
@@ -249,11 +256,12 @@ export default function Employees() {
                 {employees.filter((emp) => {
                   if (!searchTerm) return true;
                   const q = searchTerm.toLowerCase();
-                  return emp.full_name.toLowerCase().includes(q) || emp.employee_id.toLowerCase().includes(q) || emp.email.toLowerCase().includes(q);
+                  return emp.full_name.toLowerCase().includes(q) || emp.employee_id.toLowerCase().includes(q) || emp.email.toLowerCase().includes(q) || emp.department.toLowerCase().includes(q);
                 }).map((emp) => (
                   <tr
                     key={emp.employee_id}
-                    className="hover:bg-gray-50 transition-colors"
+                    className="hover:bg-gray-50 transition-colors cursor-pointer"
+                    onClick={() => setDetailTarget(emp)}
                   >
                     <td className="px-6 py-4 text-sm font-mono text-gray-700">
                       {emp.employee_id}
@@ -271,7 +279,7 @@ export default function Employees() {
                     </td>
                     <td className="px-6 py-4">
                       <button
-                        onClick={() => setDeleteTarget(emp)}
+                        onClick={(e) => { e.stopPropagation(); setDeleteTarget(emp); }}
                         className="text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg p-2 transition-colors cursor-pointer"
                         aria-label={`Delete ${emp.full_name}`}
                         title={`Delete ${emp.full_name}`}
@@ -413,6 +421,46 @@ export default function Employees() {
             : "Are you sure? This action cannot be undone."
         }
       />
+
+      {/* ── Employee Detail Modal ── */}
+      <Modal isOpen={!!detailTarget} onClose={() => setDetailTarget(null)} title="Employee Details">
+        {detailTarget && (
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <p className="text-xs font-medium text-gray-500 uppercase">Employee ID</p>
+                <p className="text-sm font-mono text-gray-800 mt-1">{detailTarget.employee_id}</p>
+              </div>
+              <div>
+                <p className="text-xs font-medium text-gray-500 uppercase">Department</p>
+                <p className="text-sm text-gray-800 mt-1">{detailTarget.department}</p>
+              </div>
+              <div>
+                <p className="text-xs font-medium text-gray-500 uppercase">Full Name</p>
+                <p className="text-sm font-medium text-gray-800 mt-1">{detailTarget.full_name}</p>
+              </div>
+              <div>
+                <p className="text-xs font-medium text-gray-500 uppercase">Email</p>
+                <p className="text-sm text-gray-800 mt-1">{detailTarget.email}</p>
+              </div>
+            </div>
+            <div className="pt-2 flex justify-between items-center border-t border-gray-100">
+              <Link
+                to="/attendance"
+                className="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors"
+              >
+                View Attendance →
+              </Link>
+              <button
+                onClick={() => setDetailTarget(null)}
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors cursor-pointer"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        )}
+      </Modal>
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Plus, UserSearch, ClipboardList } from "lucide-react";
 import { employeeApi, attendanceApi } from "../services/api";
 import LoadingSpinner from "../components/LoadingSpinner";
@@ -94,6 +95,18 @@ export default function Attendance() {
 
   // ── Notification helper ──
   const showNotification = (message) => setNotification(message);
+
+  // ── Toggle attendance status ──
+  const handleToggleStatus = async (record) => {
+    const newStatus = record.status === "Present" ? "Absent" : "Present";
+    try {
+      await attendanceApi.update(record.employee_id, record.date, { status: newStatus });
+      showNotification(`Attendance updated to ${newStatus}`);
+      fetchAttendance(selectedEmployee, startDate, endDate);
+    } catch (err) {
+      setAttendanceError(err.response?.data?.detail || "Failed to update attendance.");
+    }
+  };
 
   // ── Summary stats ──
   const presentCount = attendance.filter((r) => r.status === "Present").length;
@@ -302,7 +315,11 @@ export default function Attendance() {
             const emp = employees.find(e => e.employee_id === selectedEmployee);
             return emp ? (
               <p className="text-sm text-gray-500 mb-3">
-                Showing records for <span className="font-semibold text-gray-800">{emp.full_name}</span> ({emp.employee_id})
+                Showing records for{" "}
+                <Link to={`/employees?search=${emp.employee_id}`} className="font-semibold text-indigo-600 hover:text-indigo-800 transition-colors">
+                  {emp.full_name}
+                </Link>{" "}
+                ({emp.employee_id})
               </p>
             ) : null;
           })()}
@@ -351,7 +368,13 @@ export default function Attendance() {
                         {formatDate(record.date)}
                       </td>
                       <td className="px-6 py-4">
-                        <StatusBadge status={record.status} />
+                        <button
+                          onClick={() => handleToggleStatus(record)}
+                          className="cursor-pointer hover:opacity-80 transition-opacity"
+                          title={`Click to change to ${record.status === "Present" ? "Absent" : "Present"}`}
+                        >
+                          <StatusBadge status={record.status} />
+                        </button>
                       </td>
                     </tr>
                   ))}
