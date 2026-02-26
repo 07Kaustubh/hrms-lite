@@ -8,6 +8,7 @@ import Modal from "../components/Modal";
 import StatusBadge from "../components/StatusBadge";
 import Toast from "../components/Toast";
 import { formatDate } from "../utils/formatDate";
+import usePageTitle from "../hooks/usePageTitle";
 
 const today = new Date().toISOString().split("T")[0]; // "YYYY-MM-DD"
 
@@ -18,6 +19,7 @@ const INITIAL_MARK_FORM = {
 };
 
 export default function Attendance() {
+  usePageTitle("Attendance");
   // ── Employee list state ──
   const [employees, setEmployees] = useState([]);
   const [employeesLoading, setEmployeesLoading] = useState(true);

@@ -7,6 +7,7 @@ import { TableSkeleton } from "../components/Skeleton";
 import Modal from "../components/Modal";
 import ConfirmDialog from "../components/ConfirmDialog";
 import Toast from "../components/Toast";
+import usePageTitle from "../hooks/usePageTitle";
 
 const DEPARTMENTS = [
   "Engineering",
@@ -27,6 +28,7 @@ const INITIAL_FORM = {
 };
 
 export default function Employees() {
+  usePageTitle("Employees");
   // ── Data state ──
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
