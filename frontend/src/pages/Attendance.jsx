@@ -7,6 +7,7 @@ import { TableSkeleton, FilterSkeleton } from "../components/Skeleton";
 import Modal from "../components/Modal";
 import StatusBadge from "../components/StatusBadge";
 import Toast from "../components/Toast";
+import { formatDate } from "../utils/formatDate";
 
 const today = new Date().toISOString().split("T")[0]; // "YYYY-MM-DD"
 
@@ -336,7 +337,7 @@ export default function Attendance() {
                     className="hover:bg-gray-50 transition-colors"
                   >
                     <td className="px-6 py-4 text-sm text-gray-700">
-                      {record.date}
+                      {formatDate(record.date)}
                     </td>
                     <td className="px-6 py-4">
                       <StatusBadge status={record.status} />
