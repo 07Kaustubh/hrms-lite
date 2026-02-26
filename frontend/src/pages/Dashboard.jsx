@@ -169,33 +169,41 @@ export default function Dashboard() {
           <h2 className="text-lg font-semibold text-gray-800 mb-4">Today's Attendance</h2>
           {summary.total_employees > 0 ? (
             <div className="flex flex-col items-center">
-              <ResponsiveContainer width="100%" height={220}>
-                <PieChart>
-                  <Pie
-                    data={[
-                      { name: "Present", value: summary.present_today, color: "#059669" },
-                      { name: "Absent", value: summary.absent_today, color: "#DC2626" },
-                      { name: "Unmarked", value: summary.unmarked_today, color: "#D97706" },
-                    ].filter(d => d.value > 0)}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={60}
-                    outerRadius={90}
-                    paddingAngle={3}
-                    dataKey="value"
-                  >
-                    {[
-                      { color: "#059669" },
-                      { color: "#DC2626" },
-                      { color: "#D97706" },
-                    ].filter((_, i) => [summary.present_today, summary.absent_today, summary.unmarked_today][i] > 0)
-                     .map((entry, index) => (
-                      <Cell key={index} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip />
-                </PieChart>
-              </ResponsiveContainer>
+              <div className="relative" style={{ width: "100%", height: 220 }}>
+                <ResponsiveContainer width="100%" height={220}>
+                  <PieChart>
+                    <Pie
+                      data={[
+                        { name: "Present", value: summary.present_today, color: "#059669" },
+                        { name: "Absent", value: summary.absent_today, color: "#DC2626" },
+                        { name: "Unmarked", value: summary.unmarked_today, color: "#D97706" },
+                      ].filter(d => d.value > 0)}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={60}
+                      outerRadius={90}
+                      paddingAngle={3}
+                      dataKey="value"
+                    >
+                      {[
+                        { color: "#059669" },
+                        { color: "#DC2626" },
+                        { color: "#D97706" },
+                      ].filter((_, i) => [summary.present_today, summary.absent_today, summary.unmarked_today][i] > 0)
+                       .map((entry, index) => (
+                        <Cell key={index} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                  </PieChart>
+                </ResponsiveContainer>
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-gray-800">{summary.total_employees > 0 ? Math.round((summary.present_today / summary.total_employees) * 100) : 0}%</p>
+                    <p className="text-xs text-gray-500">Present</p>
+                  </div>
+                </div>
+              </div>
               <div className="flex gap-6 mt-2">
                 <div className="flex items-center gap-2">
                   <span className="w-3 h-3 rounded-full bg-green-600" />
