@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { DayPicker } from "react-day-picker";
 import { format, parse } from "date-fns";
 import { Calendar } from "lucide-react";
@@ -6,13 +7,14 @@ import "react-day-picker/style.css";
 
 export default function DatePicker({ value, onChange, max, id, name }) {
   const [open, setOpen] = useState(false);
+  const [pos, setPos] = useState({ top: 0, left: 0, width: 0 });
   const ref = useRef(null);
+  const btnRef = useRef(null);
 
-  // Close on click outside
   useEffect(() => {
     if (!open) return;
     const handleClick = (e) => {
-      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+      if (ref.current && !ref.current.contains(e.target) && !btnRef.current?.contains(e.target)) setOpen(false);
     };
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
@@ -28,12 +30,21 @@ export default function DatePicker({ value, onChange, max, id, name }) {
     }
   };
 
+  const handleOpen = () => {
+    if (btnRef.current) {
+      const rect = btnRef.current.getBoundingClientRect();
+      setPos({ top: rect.bottom + 4, left: rect.left, width: rect.width });
+    }
+    setOpen(!open);
+  };
+
   return (
-    <div className="relative" ref={ref}>
+    <div className="relative">
       <button
         type="button"
         id={id}
-        onClick={() => setOpen(!open)}
+        ref={btnRef}
+        onClick={handleOpen}
         className={`w-full border rounded-lg px-3 py-2 text-left text-sm outline-none transition-shadow flex items-center justify-between dark:bg-gray-800 dark:text-gray-100 ${
           open ? "ring-2 ring-teal-500 border-teal-500" : "border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
         }`}
@@ -43,17 +54,22 @@ export default function DatePicker({ value, onChange, max, id, name }) {
         </span>
         <Calendar className="w-4 h-4 text-gray-400 dark:text-gray-500" />
       </button>
-      {open && (
-        <div className="absolute z-[100] mt-1 left-0 right-0 sm:left-auto sm:right-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg overflow-hidden">
+      {open && createPortal(
+        <div
+          ref={ref}
+          className="fixed z-[100] bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg"
+          style={{ top: pos.top, left: pos.left, minWidth: Math.min(pos.width, 320) }}
+        >
           <DayPicker
             mode="single"
             selected={selected}
             onSelect={handleSelect}
             disabled={maxDate ? { after: maxDate } : undefined}
-            className="p-2 sm:p-3 [&_.rdp-month]:w-full"
+            className="p-2 sm:p-3"
             style={{ fontSize: "0.85rem" }}
           />
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
