@@ -42,7 +42,7 @@ export default function Dashboard() {
   if (loading) {
     return (
       <div>
-        <h1 className="text-2xl font-bold text-gray-800 mb-6">Dashboard</h1>
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6">Dashboard</h1>
         <CardSkeleton count={4} />
         <div className="mt-6"><TableSkeleton rows={4} cols={2} /></div>
       </div>
@@ -52,7 +52,7 @@ export default function Dashboard() {
   if (error) {
     return (
       <div>
-        <h1 className="text-2xl font-bold text-gray-800 mb-6">Dashboard</h1>
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6">Dashboard</h1>
         <ErrorMessage message={error} onRetry={fetchSummary} />
       </div>
     );
@@ -61,7 +61,7 @@ export default function Dashboard() {
   if (summary && summary.total_employees === 0) {
     return (
       <div>
-        <h1 className="text-2xl font-bold text-gray-800 mb-6">Dashboard</h1>
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6">Dashboard</h1>
         <EmptyState
           icon={Users}
           title="No employees yet"
@@ -135,7 +135,7 @@ export default function Dashboard() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-800 mb-6">Dashboard</h1>
+      <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6">Dashboard</h1>
 
       {/* Stat Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -145,7 +145,7 @@ export default function Dashboard() {
             <div
               key={card.label}
               onClick={() => handleCardClick(card.key)}
-              className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-6 flex items-center gap-4 cursor-pointer group"
+              className="bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-md transition-shadow p-6 flex items-center gap-4 cursor-pointer group"
             >
               <div
                 className={`flex items-center justify-center w-12 h-12 rounded-full ${card.bgColor} ${card.textColor} shrink-0`}
@@ -153,10 +153,10 @@ export default function Dashboard() {
                 <IconComponent className="w-6 h-6" />
               </div>
               <div className="flex-1">
-                <p className="text-2xl font-bold text-gray-900">{card.value}</p>
-                <p className="text-sm text-gray-500">{card.label}</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-gray-50">{card.value}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">{card.label}</p>
               </div>
-              <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-gray-500 transition-colors" />
+              <ChevronRight className="w-4 h-4 text-gray-300 dark:text-gray-600 group-hover:text-gray-500 dark:group-hover:text-gray-400 transition-colors" />
             </div>
           );
         })}
@@ -165,8 +165,8 @@ export default function Dashboard() {
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
         {/* Attendance Donut */}
-        <div className="bg-white rounded-xl shadow-sm p-6">
-          <h2 className="text-lg font-semibold text-gray-800 mb-4">Today's Attendance</h2>
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+          <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">Today's Attendance</h2>
           {summary.total_employees > 0 ? (
             <div className="flex flex-col items-center">
               <div className="relative" style={{ width: "100%", height: 220 }}>
@@ -199,34 +199,34 @@ export default function Dashboard() {
                 </ResponsiveContainer>
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                   <div className="text-center">
-                    <p className="text-2xl font-bold text-gray-800">{summary.total_employees > 0 ? Math.round((summary.present_today / summary.total_employees) * 100) : 0}%</p>
-                    <p className="text-xs text-gray-500">Present</p>
+                    <p className="text-2xl font-bold text-gray-800 dark:text-gray-100">{summary.total_employees > 0 ? Math.round((summary.present_today / summary.total_employees) * 100) : 0}%</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">Present</p>
                   </div>
                 </div>
               </div>
               <div className="flex gap-6 mt-2">
                 <div className="flex items-center gap-2">
                   <span className="w-3 h-3 rounded-full bg-green-600" />
-                  <span className="text-xs text-gray-600">Present ({summary.present_today})</span>
+                  <span className="text-xs text-gray-600 dark:text-gray-300">Present ({summary.present_today})</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="w-3 h-3 rounded-full bg-red-600" />
-                  <span className="text-xs text-gray-600">Absent ({summary.absent_today})</span>
+                  <span className="text-xs text-gray-600 dark:text-gray-300">Absent ({summary.absent_today})</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="w-3 h-3 rounded-full bg-amber-600" />
-                  <span className="text-xs text-gray-600">Unmarked ({summary.unmarked_today})</span>
+                  <span className="text-xs text-gray-600 dark:text-gray-300">Unmarked ({summary.unmarked_today})</span>
                 </div>
               </div>
             </div>
           ) : (
-            <p className="text-sm text-gray-400 text-center py-8">No attendance data</p>
+            <p className="text-sm text-gray-400 dark:text-gray-500 text-center py-8">No attendance data</p>
           )}
         </div>
 
         {/* Department Bar Chart */}
-        <div className="bg-white rounded-xl shadow-sm p-6">
-          <h2 className="text-lg font-semibold text-gray-800 mb-4">Employees by Department</h2>
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+          <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">Employees by Department</h2>
           {departments.length > 0 ? (
             <ResponsiveContainer width="100%" height={departments.length * 44 + 20}>
               <BarChart data={departments} layout="vertical" margin={{ left: 0, right: 20 }}
@@ -242,7 +242,7 @@ export default function Dashboard() {
               </BarChart>
             </ResponsiveContainer>
           ) : (
-            <p className="text-sm text-gray-400 text-center py-8">No department data</p>
+            <p className="text-sm text-gray-400 dark:text-gray-500 text-center py-8">No department data</p>
           )}
         </div>
       </div>
@@ -252,14 +252,14 @@ export default function Dashboard() {
         {detailModal && (
           <div>
             {detailModal.employees.length === 0 ? (
-              <p className="text-sm text-gray-500 py-4 text-center">No employees in this category today.</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400 py-4 text-center">No employees in this category today.</p>
             ) : (
-              <ul className="divide-y divide-gray-100">
+              <ul className="divide-y divide-gray-100 dark:divide-gray-700">
                 {detailModal.employees.map((emp) => (
                   <li key={emp.employee_id} className="py-3 flex items-center justify-between">
                     <div>
-                      <p className="text-sm font-medium text-gray-800">{emp.full_name}</p>
-                      <p className="text-xs text-gray-500">{emp.employee_id}</p>
+                      <p className="text-sm font-medium text-gray-800 dark:text-gray-100">{emp.full_name}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">{emp.employee_id}</p>
                     </div>
                     <Link
                       to={`/attendance?employee=${emp.employee_id}`}

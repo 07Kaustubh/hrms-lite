@@ -51,13 +51,13 @@ export default function Modal({ isOpen, onClose, title, children }) {
       {/* Panel with scale animation */}
       <div
         ref={panelRef}
-        className="relative z-10 w-full max-w-md mx-4 bg-white rounded-xl shadow-xl animate-[scaleIn_200ms_ease-out] max-h-[85vh] overflow-y-auto"
+        className="relative z-10 w-full max-w-md mx-4 bg-white dark:bg-gray-800 rounded-xl shadow-xl animate-[scaleIn_200ms_ease-out] max-h-[85vh] overflow-y-auto"
       >
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
-          <h2 id="modal-title" className="text-lg font-semibold text-gray-800">{title}</h2>
+        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+          <h2 id="modal-title" className="text-lg font-semibold text-gray-800 dark:text-gray-100">{title}</h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition-colors cursor-pointer rounded-lg p-1 hover:bg-gray-100"
+            className="text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors cursor-pointer rounded-lg p-1 hover:bg-gray-100 dark:hover:bg-gray-700"
             aria-label="Close"
           >
             <X className="w-5 h-5" />

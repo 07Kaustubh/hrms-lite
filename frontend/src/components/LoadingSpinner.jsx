@@ -22,7 +22,7 @@ export default function LoadingSpinner({ message = "Loading..." }) {
         />
       </svg>
       {message && (
-        <p className="mt-3 text-sm text-gray-500 font-medium">{message}</p>
+        <p className="mt-3 text-sm text-gray-500 dark:text-gray-400 font-medium">{message}</p>
       )}
     </div>
   );

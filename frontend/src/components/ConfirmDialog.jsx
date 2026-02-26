@@ -12,16 +12,16 @@ export default function ConfirmDialog({
     <Modal isOpen={isOpen} onClose={onClose} title={title}>
       <div className="flex flex-col items-center text-center py-2">
         {/* Warning icon */}
-        <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mb-4">
+        <div className="w-12 h-12 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center mb-4">
           <AlertTriangle className="w-6 h-6 text-red-600" />
         </div>
 
-        <p className="text-sm text-gray-600 mb-6">{message}</p>
+        <p className="text-sm text-gray-600 dark:text-gray-300 mb-6">{message}</p>
 
         <div className="flex gap-3 w-full">
           <button
             onClick={onClose}
-            className="flex-1 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors cursor-pointer"
+            className="flex-1 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors cursor-pointer"
           >
             Cancel
           </button>

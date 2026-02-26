@@ -1,6 +1,7 @@
 import { NavLink, Link, useLocation } from "react-router-dom";
 import { useEffect, useRef } from "react";
-import { Briefcase, LayoutDashboard, Users, ClipboardCheck } from "lucide-react";
+import { LayoutDashboard, Users, ClipboardCheck, Sun, Moon } from "lucide-react";
+import Logo from "./Logo";
 
 const navItems = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard },
@@ -8,7 +9,7 @@ const navItems = [
   { to: "/attendance", label: "Attendance", icon: ClipboardCheck },
 ];
 
-export default function Sidebar({ isOpen, onClose }) {
+export default function Sidebar({ isOpen, onClose, dark, toggle }) {
   const location = useLocation();
   const onCloseRef = useRef(onClose);
   onCloseRef.current = onClose;
@@ -39,7 +40,7 @@ export default function Sidebar({ isOpen, onClose }) {
         ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0
       `}>
         <Link to="/" className="px-6 py-5 flex items-center gap-3 border-b border-slate-700/50 bg-gradient-to-r from-slate-900 to-slate-800 hover:from-slate-800 hover:to-slate-700 transition-all">
-          <Briefcase className="w-7 h-7" />
+          <Logo className="w-7 h-7" />
           <h1 className="text-xl font-bold tracking-wide">HRMS Lite</h1>
         </Link>
 
@@ -62,6 +63,16 @@ export default function Sidebar({ isOpen, onClose }) {
             </NavLink>
           ))}
         </nav>
+
+        <div className="px-3 mt-auto mb-2">
+          <button
+            onClick={toggle}
+            className="flex items-center gap-3 w-full px-3 py-3 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-700/50 transition-colors cursor-pointer"
+          >
+            {dark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            {dark ? "Light Mode" : "Dark Mode"}
+          </button>
+        </div>
 
         <div className="px-6 py-4 text-xs text-slate-500 border-t border-slate-700">
           &copy; 2026 HRMS Lite

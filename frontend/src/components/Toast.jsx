@@ -24,7 +24,7 @@ export default function Toast({ message, onDismiss, duration = 4000, action }) {
         visible ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
       }`}
     >
-      <div className="bg-green-50 border border-green-200 text-green-700 rounded-lg p-4 shadow-lg flex items-center gap-3 max-w-sm">
+      <div className="bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-300 rounded-lg p-4 shadow-lg flex items-center gap-3 max-w-sm">
         <CheckCircle className="w-5 h-5 shrink-0 text-green-500" />
         <div className="flex-1">
           <span className="text-sm font-medium">{message}</span>

@@ -14,13 +14,13 @@ export default class ErrorBoundary extends Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-8">
-          <div className="bg-white rounded-xl shadow-sm p-8 max-w-md text-center">
-            <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900 p-8">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-8 max-w-md text-center">
+            <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
               <AlertTriangle className="w-8 h-8 text-red-600" />
             </div>
-            <h2 className="text-xl font-bold text-gray-800 mb-2">Something went wrong</h2>
-            <p className="text-sm text-gray-500 mb-6">An unexpected error occurred. Please try refreshing the page.</p>
+            <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2">Something went wrong</h2>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">An unexpected error occurred. Please try refreshing the page.</p>
             <button
               onClick={() => window.location.reload()}
               className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-2 rounded-lg font-medium transition-colors"

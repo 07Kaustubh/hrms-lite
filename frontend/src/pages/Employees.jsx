@@ -157,7 +157,7 @@ export default function Employees() {
     return (
       <div>
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-gray-800">Employees</h1>
+          <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">Employees</h1>
         </div>
         <TableSkeleton rows={5} cols={5} />
       </div>
@@ -168,7 +168,7 @@ export default function Employees() {
   if (error && employees.length === 0) {
     return (
       <div>
-        <h1 className="text-2xl font-bold text-gray-800 mb-6">Employees</h1>
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6">Employees</h1>
         <ErrorMessage message={error} onRetry={fetchEmployees} />
       </div>
     );
@@ -181,7 +181,7 @@ export default function Employees() {
 
       {/* ── Page header ── */}
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-6">
-        <h1 className="text-2xl font-bold text-gray-800">Employees</h1>
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">Employees</h1>
         <button
           onClick={openAddModal}
           className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg font-medium transition-colors cursor-pointer flex items-center gap-2"
@@ -218,10 +218,10 @@ export default function Employees() {
         </>
       ) : (
         /* ── Employee table ── */
-        <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden">
+          <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div className="flex items-center gap-3">
-              <h2 className="text-lg font-semibold text-gray-800">Employees</h2>
+              <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100">Employees</h2>
               <span className="bg-teal-100 text-teal-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">
                 {employees.length}
               </span>
@@ -233,20 +233,20 @@ export default function Employees() {
                 placeholder="Search employees..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-9 pr-3 py-1.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-shadow w-full sm:w-48"
+                className="pl-9 pr-3 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-shadow w-full sm:w-48 dark:bg-gray-700 dark:text-gray-100"
               />
             </div>
           </div>
 
           {/* Mobile card layout */}
-          <div className="sm:hidden divide-y divide-gray-100">
+          <div className="sm:hidden divide-y divide-gray-100 dark:divide-gray-700">
             {filteredEmployees.map((emp) => (
               <div key={emp.employee_id} className="p-4 flex items-start justify-between" onClick={() => setDetailTarget(emp)}>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900 truncate">{emp.full_name}</p>
-                  <p className="text-xs text-gray-500 font-mono">{emp.employee_id}</p>
-                  <p className="text-xs text-gray-500 truncate">{emp.email}</p>
-                  <span className="inline-block text-xs font-medium bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full mt-1">{emp.department}</span>
+                  <p className="text-sm font-medium text-gray-900 dark:text-gray-50 truncate">{emp.full_name}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 font-mono">{emp.employee_id}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{emp.email}</p>
+                  <span className="inline-block text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-2 py-0.5 rounded-full mt-1">{emp.department}</span>
                 </div>
                 <button onClick={(e) => { e.stopPropagation(); setDeleteTarget(emp); }} className="text-red-500 hover:text-red-700 p-3 ml-2" aria-label={`Delete ${emp.full_name}`}>
                   <Trash2 className="w-5 h-5" aria-hidden="true" />
@@ -260,49 +260,49 @@ export default function Employees() {
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="bg-gray-50 border-b border-gray-200">
-                    <th className="text-left text-xs font-medium text-gray-500 uppercase px-6 py-3">
+                  <tr className="bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-700">
+                    <th className="text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase px-6 py-3">
                       Employee ID
                     </th>
-                    <th className="text-left text-xs font-medium text-gray-500 uppercase px-6 py-3">
+                    <th className="text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase px-6 py-3">
                       Full Name
                     </th>
-                    <th className="text-left text-xs font-medium text-gray-500 uppercase px-6 py-3">
+                    <th className="text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase px-6 py-3">
                       Email
                     </th>
-                    <th className="text-left text-xs font-medium text-gray-500 uppercase px-6 py-3">
+                    <th className="text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase px-6 py-3">
                       Department
                     </th>
-                    <th className="text-left text-xs font-medium text-gray-500 uppercase px-6 py-3">
+                    <th className="text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase px-6 py-3">
                       Actions
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-100">
+                <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
                   {filteredEmployees.map((emp) => (
                     <tr
                       key={emp.employee_id}
-                      className="hover:bg-gray-50 transition-colors cursor-pointer"
+                      className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors cursor-pointer"
                       onClick={() => setDetailTarget(emp)}
                     >
-                      <td className="px-6 py-4 text-sm font-mono text-gray-700">
+                      <td className="px-6 py-4 text-sm font-mono text-gray-700 dark:text-gray-200">
                         {emp.employee_id}
                       </td>
-                      <td className="px-6 py-4 text-sm font-medium text-gray-900">
+                      <td className="px-6 py-4 text-sm font-medium text-gray-900 dark:text-gray-50">
                         {emp.full_name}
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-600">
+                      <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-300">
                         {emp.email}
                       </td>
                       <td className="px-6 py-4">
-                        <span className="inline-block text-xs font-medium bg-gray-100 text-gray-700 px-2.5 py-1 rounded-full">
+                        <span className="inline-block text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-2.5 py-1 rounded-full">
                           {emp.department}
                         </span>
                       </td>
                       <td className="px-6 py-4">
                         <button
                           onClick={(e) => { e.stopPropagation(); setDeleteTarget(emp); }}
-                          className="text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg p-2 transition-colors cursor-pointer"
+                          className="text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg p-2 transition-colors cursor-pointer"
                           aria-label={`Delete ${emp.full_name}`}
                           title={`Delete ${emp.full_name}`}
                         >
@@ -318,9 +318,9 @@ export default function Employees() {
 
           {filteredEmployees.length === 0 && searchTerm && (
             <div className="px-6 py-12 text-center">
-              <Search className="w-8 h-8 text-gray-300 mx-auto mb-3" />
-              <p className="text-sm font-medium text-gray-800">No results for &ldquo;{searchTerm}&rdquo;</p>
-              <p className="text-xs text-gray-500 mt-1">Try a different name, ID, email, or department</p>
+              <Search className="w-8 h-8 text-gray-300 dark:text-gray-600 mx-auto mb-3" />
+              <p className="text-sm font-medium text-gray-800 dark:text-gray-100">No results for &ldquo;{searchTerm}&rdquo;</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Try a different name, ID, email, or department</p>
             </div>
           )}
         </div>
@@ -330,7 +330,7 @@ export default function Employees() {
       <Modal isOpen={showAddModal} onClose={closeAddModal} title="Add Employee">
         <form onSubmit={handleAddSubmit} noValidate className="space-y-4">
           {formError && (
-            <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg p-3">
+            <div className="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 text-sm rounded-lg p-3">
               {formError}
             </div>
           )}
@@ -339,7 +339,7 @@ export default function Employees() {
           <div>
             <label
               htmlFor="employee_id"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1"
             >
               Employee ID
             </label>
@@ -350,7 +350,7 @@ export default function Employees() {
               maxLength={20}
               value={form.employee_id}
               onChange={handleFormChange}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-shadow"
+              className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-shadow dark:bg-gray-700 dark:text-gray-100"
               placeholder="e.g. EMP001"
             />
           </div>
@@ -359,7 +359,7 @@ export default function Employees() {
           <div>
             <label
               htmlFor="full_name"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1"
             >
               Full Name
             </label>
@@ -369,7 +369,7 @@ export default function Employees() {
               type="text"
               value={form.full_name}
               onChange={handleFormChange}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-shadow"
+              className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-shadow dark:bg-gray-700 dark:text-gray-100"
               placeholder="e.g. John Doe"
             />
           </div>
@@ -378,7 +378,7 @@ export default function Employees() {
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1"
             >
               Email
             </label>
@@ -388,7 +388,7 @@ export default function Employees() {
               type="text"
               value={form.email}
               onChange={handleFormChange}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-shadow"
+              className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-shadow dark:bg-gray-700 dark:text-gray-100"
               placeholder="e.g. john@company.com"
             />
           </div>
@@ -397,7 +397,7 @@ export default function Employees() {
           <div>
             <label
               htmlFor="department"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1"
             >
               Department
             </label>
@@ -406,7 +406,7 @@ export default function Employees() {
               name="department"
               value={form.department}
               onChange={handleFormChange}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-shadow"
+              className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-shadow dark:bg-gray-700 dark:text-gray-100"
             >
               <option value="" disabled>
                 Select a department
@@ -424,7 +424,7 @@ export default function Employees() {
             <button
               type="button"
               onClick={closeAddModal}
-              className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors cursor-pointer"
+              className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors cursor-pointer"
             >
               Cancel
             </button>
@@ -458,23 +458,23 @@ export default function Employees() {
           <div className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <p className="text-xs font-medium text-gray-500 uppercase">Employee ID</p>
-                <p className="text-sm font-mono text-gray-800 mt-1">{detailTarget.employee_id}</p>
+                <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Employee ID</p>
+                <p className="text-sm font-mono text-gray-800 dark:text-gray-100 mt-1">{detailTarget.employee_id}</p>
               </div>
               <div>
-                <p className="text-xs font-medium text-gray-500 uppercase">Department</p>
-                <p className="text-sm text-gray-800 mt-1">{detailTarget.department}</p>
+                <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Department</p>
+                <p className="text-sm text-gray-800 dark:text-gray-100 mt-1">{detailTarget.department}</p>
               </div>
               <div>
-                <p className="text-xs font-medium text-gray-500 uppercase">Full Name</p>
-                <p className="text-sm font-medium text-gray-800 mt-1">{detailTarget.full_name}</p>
+                <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Full Name</p>
+                <p className="text-sm font-medium text-gray-800 dark:text-gray-100 mt-1">{detailTarget.full_name}</p>
               </div>
               <div>
-                <p className="text-xs font-medium text-gray-500 uppercase">Email</p>
-                <p className="text-sm text-gray-800 mt-1 break-all">{detailTarget.email}</p>
+                <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Email</p>
+                <p className="text-sm text-gray-800 dark:text-gray-100 mt-1 break-all">{detailTarget.email}</p>
               </div>
             </div>
-            <div className="pt-2 flex justify-between items-center border-t border-gray-100">
+            <div className="pt-2 flex justify-between items-center border-t border-gray-100 dark:border-gray-700">
               <Link
                 to={`/attendance?employee=${detailTarget.employee_id}`}
                 className="text-sm font-medium text-teal-600 hover:text-teal-800 transition-colors"
@@ -483,7 +483,7 @@ export default function Employees() {
               </Link>
               <button
                 onClick={() => setDetailTarget(null)}
-                className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors cursor-pointer"
+                className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors cursor-pointer"
               >
                 Close
               </button>

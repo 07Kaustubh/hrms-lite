@@ -199,7 +199,7 @@ export default function Attendance() {
     return (
       <div>
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-gray-800">Attendance</h1>
+          <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">Attendance</h1>
         </div>
         <FilterSkeleton />
         <TableSkeleton rows={5} cols={2} />
@@ -211,7 +211,7 @@ export default function Attendance() {
   if (employeesError) {
     return (
       <div>
-        <h1 className="text-2xl font-bold text-gray-800 mb-6">Attendance</h1>
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6">Attendance</h1>
         <ErrorMessage message={employeesError} onRetry={fetchEmployees} />
       </div>
     );
@@ -224,7 +224,7 @@ export default function Attendance() {
 
       {/* ── Page header ── */}
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-6">
-        <h1 className="text-2xl font-bold text-gray-800">Attendance</h1>
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">Attendance</h1>
         <button
           onClick={openMarkModal}
           className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg font-medium transition-colors cursor-pointer flex items-center gap-2"
@@ -235,13 +235,13 @@ export default function Attendance() {
       </div>
 
       {/* ── Filter section ── */}
-      <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 mb-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Employee dropdown */}
           <div>
             <label
               htmlFor="employee-select"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1"
             >
               Employee
             </label>
@@ -249,7 +249,7 @@ export default function Attendance() {
               id="employee-select"
               value={selectedEmployee}
               onChange={(e) => setSelectedEmployee(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-shadow"
+              className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-shadow dark:bg-gray-700 dark:text-gray-100"
             >
               <option value="">Select an employee</option>
               {employees.map((emp) => (
@@ -264,7 +264,7 @@ export default function Attendance() {
           <div>
             <label
               htmlFor="start-date"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1"
             >
               Start Date
             </label>
@@ -280,7 +280,7 @@ export default function Attendance() {
           <div>
             <label
               htmlFor="end-date"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1"
             >
               End Date
             </label>
@@ -327,7 +327,7 @@ export default function Attendance() {
           {(() => {
             const emp = employees.find(e => e.employee_id === selectedEmployee);
             return emp ? (
-              <p className="text-sm text-gray-500 mb-3">
+              <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
                 Showing records for{" "}
                 <Link to={`/employees?search=${emp.employee_id}`} className="font-semibold text-teal-600 hover:text-teal-800 transition-colors">
                   {emp.full_name}
@@ -338,9 +338,9 @@ export default function Attendance() {
           })()}
 
           {/* ── Summary stats ── */}
-          <div className="bg-white rounded-xl shadow-sm p-4 mb-4">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 mb-4">
             <div className="flex items-center gap-4">
-              <span className="text-sm text-gray-600">
+              <span className="text-sm text-gray-600 dark:text-gray-300">
                 Total:{" "}
                 <span className="font-semibold text-green-600">
                   {presentCount} Present
@@ -350,7 +350,7 @@ export default function Attendance() {
                   {absentCount} Absent
                 </span>{" "}
                 out of{" "}
-                <span className="font-semibold text-gray-800">
+                <span className="font-semibold text-gray-800 dark:text-gray-100">
                   {totalCount} records
                 </span>
               </span>
@@ -358,26 +358,26 @@ export default function Attendance() {
           </div>
 
           {/* ── Attendance table ── */}
-          <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="bg-gray-50 border-b border-gray-200">
-                    <th className="text-left text-xs font-medium text-gray-500 uppercase px-6 py-3">
+                  <tr className="bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-700">
+                    <th className="text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase px-6 py-3">
                       Date
                     </th>
-                    <th className="text-left text-xs font-medium text-gray-500 uppercase px-6 py-3">
+                    <th className="text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase px-6 py-3">
                       Status
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-100">
+                <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
                   {attendance.map((record) => (
                     <tr
                       key={record.date}
-                      className="hover:bg-gray-50 transition-colors"
+                      className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                     >
-                      <td className="px-6 py-4 text-sm text-gray-700">
+                      <td className="px-6 py-4 text-sm text-gray-700 dark:text-gray-200">
                         {formatDate(record.date)}
                       </td>
                       <td className="px-6 py-4">
@@ -407,7 +407,7 @@ export default function Attendance() {
       >
         <form onSubmit={handleMarkSubmit} noValidate className="space-y-4">
           {markError && (
-            <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg p-3">
+            <div className="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 text-sm rounded-lg p-3">
               {markError}
             </div>
           )}
@@ -416,7 +416,7 @@ export default function Attendance() {
           <div>
             <label
               htmlFor="mark-employee"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1"
             >
               Employee
             </label>
@@ -425,7 +425,7 @@ export default function Attendance() {
               name="employee_id"
               value={markForm.employee_id}
               onChange={handleMarkFormChange}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-shadow"
+              className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-shadow dark:bg-gray-700 dark:text-gray-100"
             >
               <option value="" disabled>
                 Select an employee
@@ -442,7 +442,7 @@ export default function Attendance() {
           <div>
             <label
               htmlFor="mark-date"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1"
             >
               Date
             </label>
@@ -457,15 +457,15 @@ export default function Attendance() {
 
           {/* Status radio buttons */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
               Status
             </label>
             <div className="flex gap-4">
               <label
                 className={`flex items-center gap-2 cursor-pointer rounded-lg border px-4 py-2.5 transition-colors ${
                   markForm.status === "Present"
-                    ? "border-green-300 bg-green-50 text-green-700"
-                    : "border-gray-200 bg-white text-gray-600 hover:bg-gray-50"
+                    ? "border-green-300 bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300"
+                    : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
                 }`}
               >
                 <input
@@ -488,8 +488,8 @@ export default function Attendance() {
               <label
                 className={`flex items-center gap-2 cursor-pointer rounded-lg border px-4 py-2.5 transition-colors ${
                   markForm.status === "Absent"
-                    ? "border-red-300 bg-red-50 text-red-700"
-                    : "border-gray-200 bg-white text-gray-600 hover:bg-gray-50"
+                    ? "border-red-300 bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300"
+                    : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
                 }`}
               >
                 <input
@@ -517,7 +517,7 @@ export default function Attendance() {
             <button
               type="button"
               onClick={closeMarkModal}
-              className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors cursor-pointer"
+              className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors cursor-pointer"
             >
               Cancel
             </button>
