@@ -4,8 +4,8 @@ A lightweight Human Resource Management System for managing employee records and
 
 ## Live Demo
 
-- **Frontend:** [Live Application URL](https://hrms-lite.vercel.app)
-- **Backend API:** [API Documentation](https://hrms-lite-api.onrender.com/docs)
+- **Frontend:** [Live Application](https://frontend-seven-theta-75.vercel.app)
+- **Backend API:** [API Documentation](https://hrms-lite-api-v346.onrender.com/docs)
 
 ## Tech Stack
 
