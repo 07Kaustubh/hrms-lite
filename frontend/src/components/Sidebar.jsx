@@ -1,4 +1,5 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 const navItems = [
   {
@@ -60,37 +61,59 @@ const navItems = [
   },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ isOpen, onClose }) {
+  const location = useLocation();
+
+  // Close sidebar on navigation (mobile)
+  useEffect(() => {
+    onClose?.();
+  }, [location.pathname]);
+
   return (
-    <aside className="w-64 bg-indigo-700 text-white flex flex-col min-h-screen">
-      <div className="px-6 py-5 flex items-center gap-3 border-b border-indigo-600">
-        <span className="text-2xl">&#128188;</span>
-        <h1 className="text-xl font-bold tracking-wide">HRMS Lite</h1>
-      </div>
+    <>
+      {/* Mobile backdrop */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40 md:hidden"
+          onClick={onClose}
+        />
+      )}
 
-      <nav className="flex-1 mt-4 px-3 space-y-1">
-        {navItems.map(({ to, label, icon }) => (
-          <NavLink
-            key={to}
-            to={to}
-            end={to === "/"}
-            className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                isActive
-                  ? "bg-indigo-600 text-white"
-                  : "text-indigo-100 hover:bg-white/10"
-              }`
-            }
-          >
-            {icon}
-            {label}
-          </NavLink>
-        ))}
-      </nav>
+      <aside className={`
+        fixed md:static inset-y-0 left-0 z-50
+        w-64 bg-indigo-700 text-white flex flex-col min-h-screen
+        transform transition-transform duration-300 ease-in-out
+        ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0
+      `}>
+        <div className="px-6 py-5 flex items-center gap-3 border-b border-indigo-600">
+          <span className="text-2xl">&#128188;</span>
+          <h1 className="text-xl font-bold tracking-wide">HRMS Lite</h1>
+        </div>
 
-      <div className="px-6 py-4 text-xs text-indigo-300 border-t border-indigo-600">
-        &copy; 2026 HRMS Lite
-      </div>
-    </aside>
+        <nav className="flex-1 mt-4 px-3 space-y-1">
+          {navItems.map(({ to, label, icon }) => (
+            <NavLink
+              key={to}
+              to={to}
+              end={to === "/"}
+              className={({ isActive }) =>
+                `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                  isActive
+                    ? "bg-indigo-600 text-white"
+                    : "text-indigo-100 hover:bg-white/10"
+                }`
+              }
+            >
+              {icon}
+              {label}
+            </NavLink>
+          ))}
+        </nav>
+
+        <div className="px-6 py-4 text-xs text-indigo-300 border-t border-indigo-600">
+          &copy; 2026 HRMS Lite
+        </div>
+      </aside>
+    </>
   );
 }
