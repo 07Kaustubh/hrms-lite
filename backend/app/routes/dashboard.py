@@ -1,7 +1,7 @@
 from datetime import date
 from fastapi import APIRouter
 from app.database import employees_collection, attendance_collection
-from app.models import DashboardSummary
+from app.models import DashboardSummary, DepartmentCount
 
 router = APIRouter(prefix="/api/dashboard", tags=["dashboard"])
 
@@ -11,21 +11,21 @@ async def get_summary():
     total_employees = await employees_collection.count_documents({})
     today = date.today().isoformat()
 
-    today_present = await attendance_collection.count_documents({"date": today, "status": "Present"})
-    today_absent = await attendance_collection.count_documents({"date": today, "status": "Absent"})
-    today_unmarked = total_employees - today_present - today_absent
+    present_today = await attendance_collection.count_documents({"date": today, "status": "Present"})
+    absent_today = await attendance_collection.count_documents({"date": today, "status": "Absent"})
+    unmarked_today = total_employees - present_today - absent_today
 
     pipeline = [
         {"$group": {"_id": "$department", "count": {"$sum": 1}}}
     ]
-    department_counts = {}
+    departments = []
     async for doc in employees_collection.aggregate(pipeline):
-        department_counts[doc["_id"]] = doc["count"]
+        departments.append(DepartmentCount(department=doc["_id"], count=doc["count"]))
 
     return DashboardSummary(
         total_employees=total_employees,
-        today_present=today_present,
-        today_absent=today_absent,
-        today_unmarked=today_unmarked,
-        department_counts=department_counts,
+        present_today=present_today,
+        absent_today=absent_today,
+        unmarked_today=unmarked_today,
+        departments=departments,
     )

@@ -47,9 +47,14 @@ class AttendanceResponse(BaseModel):
     created_at: datetime
 
 
+class DepartmentCount(BaseModel):
+    department: str
+    count: int
+
+
 class DashboardSummary(BaseModel):
     total_employees: int
-    today_present: int
-    today_absent: int
-    today_unmarked: int
-    department_counts: dict[str, int]
+    present_today: int
+    absent_today: int
+    unmarked_today: int
+    departments: list[DepartmentCount]
