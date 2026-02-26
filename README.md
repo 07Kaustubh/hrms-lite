@@ -20,6 +20,9 @@ A lightweight Human Resource Management System for managing employee records and
 | Routing | React Router | 7.13.1 |
 | HTTP Client | Axios | 1.13.5 |
 | Icons | Lucide React | 0.575.0 |
+| Charts | Recharts | 2.x |
+| Date Picker | react-day-picker + date-fns | 9.x + 4.x |
+| Font | Manrope (Google Fonts) | — |
 | Backend | FastAPI | 0.115.0 |
 | ASGI Server | Uvicorn | 0.30.6 |
 | Async MongoDB Driver | Motor | 3.7.1 |
