@@ -221,7 +221,12 @@ export default function Dashboard() {
           <h2 className="text-lg font-semibold text-gray-800 mb-4">Employees by Department</h2>
           {departments.length > 0 ? (
             <ResponsiveContainer width="100%" height={departments.length * 44 + 20}>
-              <BarChart data={departments} layout="vertical" margin={{ left: 0, right: 20 }}>
+              <BarChart data={departments} layout="vertical" margin={{ left: 0, right: 20 }}
+                onClick={(data) => {
+                  if (data?.activeLabel) navigate("/employees?search=" + encodeURIComponent(data.activeLabel));
+                }}
+                style={{ cursor: "pointer" }}
+              >
                 <XAxis type="number" allowDecimals={false} tick={{ fontSize: 12 }} />
                 <YAxis type="category" dataKey="department" width={110} tick={{ fontSize: 12 }} />
                 <Tooltip />
