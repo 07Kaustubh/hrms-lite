@@ -27,3 +27,6 @@ docs/
 # Assignment spec (but not requirements.txt)
 *.txt
 !backend/requirements.txt
+
+# Utility scripts
+keep-alive.js
